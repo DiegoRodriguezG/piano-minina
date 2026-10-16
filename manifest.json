@@ -1,26 +1,39 @@
 {
+  "id": "/piano-minina/piano.html",
   "name": "Piano · Minina te Amooo ✨",
   "short_name": "Piano ✨",
-  "description": "Curso completo de piano para principiantes — De cero a tu primera pieza",
-  "start_url": "./piano.html",
-  "scope": "./",
-  "display": "fullscreen",
+  "description": "Curso completo de piano para principiantes",
+  "start_url": "/piano-minina/piano.html",
+  "scope": "/piano-minina/",
+  "display": "standalone",
   "orientation": "landscape",
   "background_color": "#070010",
   "theme_color": "#7c3aed",
   "lang": "es",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "/piano-minina/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "icon-512.png",
+      "src": "/piano-minina/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/piano-minina/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/piano-minina/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

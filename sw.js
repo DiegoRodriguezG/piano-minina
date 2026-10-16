@@ -1,6 +1,11 @@
-// Service Worker — Piano PWA
-const CACHE = 'piano-v1';
-const ASSETS = ['./piano.html', './manifest.json'];
+// Service Worker — Piano PWA v2
+const CACHE = 'piano-v2';
+const ASSETS = [
+  '/piano-minina/piano.html',
+  '/piano-minina/manifest.json',
+  '/piano-minina/icon-192.png',
+  '/piano-minina/icon-512.png'
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(
