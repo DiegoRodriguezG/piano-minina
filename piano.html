@@ -989,6 +989,165 @@ function makeActivitySheetRitmo() {
     + '</div>';
 }
 
+function _eItemU(s, name, ans, bc, unit) {
+  return '<div class="act-e-item">'
+    + '<span class="act-e-sym" title="' + name + '">' + s + '</span>'
+    + _ai(ans, bc, 'act-e-inp')
+    + '<span class="act-e-label">' + (unit || 'tiempos') + '</span>'
+    + '</div>';
+}
+
+function makeActivitySheetEscala() {
+  function _inter(num, nc, from, to, ans, bc) {
+    return '<div class="act-prob">'
+      + '<span class="act-pnum" style="color:' + nc + '">' + num + '.</span>'
+      + '<span style="display:inline-block;font-size:.95rem;font-weight:700;color:#1e1b4b;background:#fff;border:2px solid ' + nc + ';border-radius:8px;padding:3px 10px;margin:0 2px">' + from + '</span>'
+      + '<span class="act-oper">→</span>'
+      + '<span style="display:inline-block;font-size:.95rem;font-weight:700;color:#1e1b4b;background:#fff;border:2px solid ' + nc + ';border-radius:8px;padding:3px 10px;margin:0 2px">' + to + '</span>'
+      + '<span class="act-eq">=</span>'
+      + _ai(ans, bc)
+      + '<span class="act-unit">st</span>'
+      + '</div>';
+  }
+  var ga='#16a34a', pa='#e11d48', ba='#2563eb', va='#7c3aed', oa='#d97706';
+
+  var secA = '<div class="act-sec a-green">'
+    + '<div class="act-sec-title">A. Notas vecinas</div>'
+    + '<div class="act-sec-desc">Semitonos (st) entre notas consecutivas de Do Mayor. (Tono = 2 st · Semitono = 1 st)</div>'
+    + _inter(1, ga, 'Do', 'Re',  2, ga)
+    + _inter(2, ga, 'Re', 'Mi',  2, ga)
+    + _inter(3, ga, 'Mi', 'Fa',  1, ga)
+    + _inter(4, ga, 'Fa', 'Sol', 2, ga)
+    + _inter(5, ga, 'Sol','La',  2, ga)
+    + '</div>';
+
+  var secB = '<div class="act-sec b-pink">'
+    + '<div class="act-sec-title">B. Desde Do (distancias totales)</div>'
+    + '<div class="act-sec-desc">Suma los semitonos acumulados desde Do hasta cada nota.</div>'
+    + _inter(1, pa, 'Do', 'Mi',  4,  pa)
+    + _inter(2, pa, 'Do', 'Fa',  5,  pa)
+    + _inter(3, pa, 'Do', 'Sol', 7,  pa)
+    + _inter(4, pa, 'Do', 'La',  9,  pa)
+    + _inter(5, pa, 'Do', 'Si',  11, pa)
+    + '</div>';
+
+  var secC = '<div class="act-sec c-blue">'
+    + '<div class="act-sec-title">C. Completa la octava</div>'
+    + '<div class="act-sec-desc">Los dos últimos intervalos de la escala de Do Mayor.</div>'
+    + _inter(1, ba, 'La', 'Si',  2, ba)
+    + _inter(2, ba, 'Si', 'Do',  1, ba)
+    + '</div>';
+
+  var secD = '<div class="act-sec d-purple">'
+    + '<div class="act-sec-title">D. Los 2 semitonos naturales</div>'
+    + '<div class="act-sec-desc">Son los únicos pares SIN tecla negra entre ellos en la escala de Do Mayor.</div>'
+    + _inter(1, va, 'Mi', 'Fa',  1, va)
+    + _inter(2, va, 'Si', 'Do',  1, va)
+    + '</div>';
+
+  var secE = '<div class="act-sec-full e-orange">'
+    + '<div class="act-sec-title">E. Semitonos por grado</div>'
+    + '<div class="act-sec-desc">¿Cuántos semitonos hay desde Do hasta cada grado de la escala?</div>'
+    + '<div class="act-e-row">'
+    + _eItemU('Re', 'Grado 2', 2,  oa, 'st')
+    + _eItemU('Mi', 'Grado 3', 4,  oa, 'st')
+    + _eItemU('Fa', 'Grado 4', 5,  oa, 'st')
+    + _eItemU('Sol','Grado 5', 7,  oa, 'st')
+    + _eItemU('La', 'Grado 6', 9,  oa, 'st')
+    + _eItemU('Si', 'Grado 7', 11, oa, 'st')
+    + '</div>'
+    + '</div>';
+
+  var recuerda = '<div class="act-recuerda">'
+    + '<span style="font-size:1.4rem;flex-shrink:0">⭐</span>'
+    + '<span><b>Recuerda:</b> Do Mayor tiene exactamente 2 semitonos naturales: <b>Mi→Fa</b> (grado 3→4) y <b>Si→Do</b> (grado 7→8). '
+    + 'Todos los demás intervalos consecutivos son tonos enteros (2 st). '
+    + 'Fórmula: T-T-<b>S</b>-T-T-T-<b>S</b>.</span>'
+    + '</div>';
+
+  return '<div class="act-sheet">'
+    + '<div class="act-top">'
+    + '<div class="act-top-title"><span style="font-size:1.2rem">✦</span> Actividades <span style="font-size:1.2rem">✦</span></div>'
+    + '<div class="act-top-sub">Intervalos y semitonos de la Escala de Do Mayor</div>'
+    + '</div>'
+    + '<div class="act-body">'
+    + secA + secB + secC + secD + secE + recuerda
+    + '</div>'
+    + '</div>';
+}
+
+function makeActivitySheetAcordes() {
+  function _chord(num, nc, label, ans, bc) {
+    return '<div class="act-prob">'
+      + '<span class="act-pnum" style="color:' + nc + '">' + num + '.</span>'
+      + '<span style="font-size:.9rem;font-weight:600;color:#1e1b4b;flex:1;padding:0 6px">' + label + '</span>'
+      + '<span class="act-eq">=</span>'
+      + _ai(ans, bc)
+      + '<span class="act-unit">st</span>'
+      + '</div>';
+  }
+  var ga='#16a34a', pa='#e11d48', ba='#2563eb', va='#7c3aed', oa='#d97706';
+
+  var secA = '<div class="act-sec a-green">'
+    + '<div class="act-sec-title">A. Do Mayor (C)</div>'
+    + '<div class="act-sec-desc">Calcula los semitonos de cada intervalo (st = semitonos).</div>'
+    + _chord(1, ga, 'Do → Mi &nbsp;&nbsp;(Raíz → 3ª)',  4, ga)
+    + _chord(2, ga, 'Mi → Sol &nbsp;(3ª → 5ª)',        3, ga)
+    + _chord(3, ga, 'Do → Sol &nbsp;(Raíz → 5ª)',      7, ga)
+    + '</div>';
+
+  var secB = '<div class="act-sec b-pink">'
+    + '<div class="act-sec-title">B. Sol Mayor (G)</div>'
+    + '<div class="act-sec-desc">La misma fórmula 4+3, aplicada desde Sol.</div>'
+    + _chord(1, pa, 'Sol → Si &nbsp;&nbsp;(Raíz → 3ª)', 4, pa)
+    + _chord(2, pa, 'Si → Re &nbsp;&nbsp;(3ª → 5ª)',    3, pa)
+    + _chord(3, pa, 'Sol → Re &nbsp;(Raíz → 5ª)',       7, pa)
+    + '</div>';
+
+  var secC = '<div class="act-sec c-blue">'
+    + '<div class="act-sec-title">C. Re Mayor (D)</div>'
+    + '<div class="act-sec-desc">Aplica la fórmula 4+3 desde Re. Ojo: la 3ª es Fa#.</div>'
+    + _chord(1, ba, 'Re → Fa# (Raíz → 3ª)',   4, ba)
+    + _chord(2, ba, 'Fa# → La (3ª → 5ª)',     3, ba)
+    + _chord(3, ba, 'Re → La &nbsp;(Raíz → 5ª)', 7, ba)
+    + '</div>';
+
+  var secD = '<div class="act-sec d-purple">'
+    + '<div class="act-sec-title">D. Mi Mayor (E)</div>'
+    + '<div class="act-sec-desc">Aplica la fórmula 4+3 desde Mi. La 3ª es Sol#.</div>'
+    + _chord(1, va, 'Mi → Sol# (Raíz → 3ª)',    4, va)
+    + _chord(2, va, 'Sol# → Si (3ª → 5ª)',      3, va)
+    + _chord(3, va, 'Mi → Si &nbsp;&nbsp;(Raíz → 5ª)', 7, va)
+    + '</div>';
+
+  var secE = '<div class="act-sec-full e-orange">'
+    + '<div class="act-sec-title">E. La fórmula universal del acorde mayor</div>'
+    + '<div class="act-sec-desc">Todo acorde mayor tiene siempre la misma estructura en semitonos.</div>'
+    + '<div class="act-e-row">'
+    + _eItemU('Raíz→3ª', '3ª Mayor',  4, oa, 'st')
+    + _eItemU('3ª→5ª',   '3ª Menor',  3, oa, 'st')
+    + _eItemU('Raíz→5ª', '5ª Justa',  7, oa, 'st')
+    + '</div>'
+    + '</div>';
+
+  var recuerda = '<div class="act-recuerda">'
+    + '<span style="font-size:1.4rem;flex-shrink:0">⭐</span>'
+    + '<span><b>Recuerda:</b> todo acorde mayor tiene la fórmula <b>4+3 semitonos</b>: '
+    + '4 st de la raíz a la 3ª mayor, y 3 st de la 3ª a la 5ª justa. '
+    + 'Raíz → 5ª = 7 st siempre. Si cambias la 3ª mayor (4 st) a 3ª menor (3 st), el acorde se vuelve MENOR.</span>'
+    + '</div>';
+
+  return '<div class="act-sheet">'
+    + '<div class="act-top">'
+    + '<div class="act-top-title"><span style="font-size:1.2rem">✦</span> Actividades <span style="font-size:1.2rem">✦</span></div>'
+    + '<div class="act-top-sub">Intervalos en Tríadas Mayores · Fórmula 4+3 semitonos</div>'
+    + '</div>'
+    + '<div class="act-body">'
+    + secA + secB + secC + secD + secE + recuerda
+    + '</div>'
+    + '</div>';
+}
+
 // ═══════════════════════════════════════════
 // LESSONS CONTENT
 // ═══════════════════════════════════════════
@@ -1808,16 +1967,16 @@ var currentLesson = 'l1-1';
 // Listen format:    [question, options, correctIdx, explanation, [midiArr], bpm]
 var EX = {
 'l1-1':[
-  ['¿Cuántas teclas blancas tiene exactamente un piano de 88 teclas?',['48','50','52','56'],2,'52 teclas blancas + 36 negras = 88. No son 48 ni 50.'],
-  ['¿Cuál es la nota más GRAVE del piano de 88 teclas?',['Do1 (C1)','La0 (A0)','Sol0 (G0)','Mi0 (E0)'],1,'El piano comienza en La0 (A0), NO en Do. Muchos principiantes asumen que empieza en Do.'],
-  ['¿Cuál es la nota más AGUDA del piano de 88 teclas?',['Si7 (B7)','La7 (A7)','Do8 (C8)','Re8 (D8)'],2,'La tecla 88 (la última) es Do8 (C8). Termina en Do, aunque empiece en La.'],
-  ['¿Quién inventó el pianoforte?',['Johann Sebastian Bach','Bartolomeo Cristofori','Ludwig van Beethoven','Frédéric Chopin'],1,'Bartolomeo Cristofori lo construyó hacia 1700 en Florencia, Italia. Los demás son compositores, no inventores del instrumento.'],
-  ['¿En qué siglo se inventó el pianoforte?',['Siglo XVII (1600s)','Siglo XVIII (1700s)','Siglo XIX (1800s)','Siglo XV (1400s)'],1,'Cristofori lo inventó alrededor de 1700, al comienzo del siglo XVIII.'],
-  ['¿Qué capacidad tenía el piano que el clavicémbalo NO tenía?',['Teclas negras','Pedales de resonancia','Controlar el volumen con los dedos','Cuerdas de metal'],2,'El clavicémbalo rasga las cuerdas con plectros; no puede controlar la dinámica. El piano usa martillos, lo que permite tocar suave o fuerte según la fuerza del toque.'],
-  ['Si el piano tiene 88 teclas y una octava tiene 12 notas, ¿cuántas octavas COMPLETAS caben?',['Exactamente 7','Exactamente 8','Aproximadamente 7.3','Aproximadamente 6.8'],2,'88 ÷ 12 = 7.33. No caben exactamente 7 ni 8 octavas completas. Por eso el rango no empieza exactamente en Do.'],
-  ['¿Cuántas teclas NEGRAS tiene un piano de 88 teclas?',['30','34','36','40'],2,'52 blancas + 36 negras = 88. Las negras son 5 por octava (patrón 2+3), en 7 octavas = 35, más 1 del tramo inicial = 36.'],
-  ['¿El piano estándar moderno siempre tiene exactamente 88 teclas?','TF',false,'Aunque 88 es el estándar universal de Steinway adoptado en el siglo XIX, algunos pianos de concierto especiales (como el Bösendorfer Imperial) tienen 97 teclas (llegando hasta Fa0).'],
-  ['"Piano" es el nombre completo del instrumento','TF',false,'"Piano" es la abreviatura popular de "pianoforte". El nombre completo en italiano es "gravicembalo col piano e forte" (clavicémbalo que puede tocar suave y fuerte).']
+  ['¿Cuántas teclas blancas tiene exactamente un piano de 88 teclas?',['48','50','52','56'],2,'52 teclas blancas + 36 negras = 88. Las blancas corresponden a las 7 notas naturales (Do-Re-Mi-Fa-Sol-La-Si) repetidas a lo largo de todo el teclado.'],
+  ['¿Cuál es la nota más GRAVE del piano de 88 teclas?',['Do1 (C1)','La0 (A0)','Sol0 (G0)','Mi0 (E0)'],1,'El piano comienza en La0 (A0), NO en Do. Muchos principiantes asumen que empieza en Do, pero el rango comienza antes.'],
+  ['¿Cuál es la nota más AGUDA del piano de 88 teclas?',['Si7 (B7)','La7 (A7)','Do8 (C8)','Re8 (D8)'],2,'La última tecla (88) es Do8 (C8). El piano termina en Do, aunque empiece en La0.'],
+  ['¿Cuántas teclas NEGRAS tiene un piano de 88 teclas?',['30','34','36','40'],2,'52 blancas + 36 negras = 88. Las negras forman el patrón 2+3 que se repite a lo largo de todo el teclado.'],
+  ['¿Qué capacidad tenía el piano que el clavicémbalo NO tenía?',['Teclas negras','Pedales de resonancia','Controlar el volumen con los dedos','Cuerdas de metal'],2,'El clavicémbalo rasga las cuerdas con plectros y no puede controlar la dinámica. El piano usa martillos: tocar más fuerte produce más volumen. De ahí viene su nombre "pianoforte" (suave-fuerte).'],
+  ['¿Hacia qué lado del teclado están las notas MÁS GRAVES?',['A la derecha','A la izquierda','En el centro','Depende del piano'],1,'Las notas graves están a la IZQUIERDA y las agudas a la DERECHA. Cuanto más a la izquierda, más lenta vibra la cuerda y más grave suena.'],
+  ['¿Cuántas notas NATURALES (sin sostenido ni bemol) tiene una octava?',['5','6','7','12'],2,'Una octava tiene 7 notas naturales: Do-Re-Mi-Fa-Sol-La-Si. Las 5 teclas negras dentro de esa octava son los semitonos (sostenidos/bemoles) entre ellas.'],
+  ['¿Para qué sirve el patrón de teclas negras en grupos de 2 y de 3?',['Para tocar más rápido','Para crear variedad estética','Para identificar cualquier nota del teclado por su posición visual','Para separar las octavas'],2,'El patrón 2+3 es tu brújula: Do está siempre a la izquierda del grupo de 2 negras, Fa a la izquierda del grupo de 3 negras. Esto te permite encontrar cualquier nota sin mirar etiquetas.'],
+  ['La diferencia de sonido entre una tecla blanca y la tecla negra inmediata es de...', ['½ tono, pero no semitono', '1 semitono (la distancia mínima posible)', '2 semitonos (1 tono)', '3 semitonos'], 1, '1 semitono es la distancia mínima en el sistema musical occidental. La tecla negra inmediata a una blanca siempre está a exactamente 1 semitono de distancia.'],
+  ['¿Las teclas blancas representan las notas NATURALES y las negras los semitonos alterados?','TF',true,'Correcto. Las 52 teclas blancas son Do, Re, Mi, Fa, Sol, La, Si en sus distintas octavas. Las 36 teclas negras son los sostenidos (#) y bemoles (♭). La misma tecla negra puede llamarse Do# o Re♭ según el contexto musical.']
 ],
 'l1-2':[
   ['Para encontrar la nota DO en cualquier parte del teclado, debes buscar...',['La tecla blanca entre dos negras','La blanca justo a la IZQUIERDA del grupo de 2 negras','La blanca justo a la DERECHA del grupo de 3 negras','La primera tecla blanca de cualquier grupo'],1,'Do siempre está a la IZQUIERDA del par de 2 negras. Es el punto de referencia más importante del teclado.'],
@@ -1844,16 +2003,16 @@ var EX = {
   ['¿Cuál es el error más común de postura en principiantes?',['Sentarse muy lejos del piano','Tocar con los dedos extendidos y planos en lugar de curvados','Mantener los codos demasiado cerca del cuerpo','Mantener los hombros muy bajos'],1,'Los dedos planos ("golpear" con la yema extendida) es el error más frecuente. Reduce control, velocidad y aumenta el riesgo de tensión muscular.']
 ],
 'l2-1':[
-  ['¿Qué número MIDI corresponde al Do Central (C4)?',['48','56','60','64'],2,'MIDI 60 = Do Central (C4). Esta es una referencia universal en música electrónica y digital. La nota La4 = MIDI 69 y sirve de referencia para afinar a 440 Hz.'],
   ['¿En qué octava está el Do Central?',['3ª octava (C3)','4ª octava (C4)','5ª octava (C5)','2ª octava (C2)'],1,'C4 significa "Do de la 4ª octava". La numeración de octavas sube con cada Do: C1, C2, C3, C4 (central), C5...'],
-  ['¿Dónde aparece el Do Central en la clave de Sol (treble)?',['En la 1ª línea desde abajo','En un espacio entre líneas','En una línea adicional DEBAJO del pentagrama','En el espacio debajo de la 1ª línea'],2,'El Do Central está en la primera línea adicional DEBAJO del pentagrama de clave de Sol. Por eso "conecta" visualmente con la clave de Fa (bass) donde está encima.'],
+  ['¿Dónde aparece el Do Central en la clave de Sol (treble)?',['En la 1ª línea desde abajo','En un espacio entre líneas','En una línea adicional DEBAJO del pentagrama','En el espacio debajo de la 1ª línea'],2,'El Do Central está en la primera línea adicional DEBAJO del pentagrama de clave de Sol. Por eso "conecta" visualmente con la clave de Fa donde está justo encima.'],
   ['¿Cuántos Do hay en un piano de 88 teclas?',['7','8','9','6'],1,'De Do1 a Do8 son 8 Do. El piano termina exactamente en Do8, por eso hay 8 aunque solo tenga 7 octavas completas.'],
-  ['¿Cuál es el número de tecla del Do Central en un piano de 88 teclas (contando desde La0=1)?',['36','38','40','44'],2,'La0=1, A#0=2, B0=3, luego C1=4... C4 = 3 + (3×12) + 1 = 3+36+1 = 40. La tecla número 40.'],
-  ['El Do Central se llama "central" principalmente porque...',['Es la nota más fácil de tocar','Está en el centro del teclado Y en el centro del gran pentagrama (entre treble y bass)','Es la primera nota que aprenden todos los pianistas','Es la nota del tono de referencia internacional'],1,'El Do Central es el punto de unión entre la clave de Sol (mano derecha) y la clave de Fa (mano izquierda). Está físicamente cerca del centro del teclado y musicalmente en el centro del gran pentagrama.'],
+  ['El Do Central se llama "central" principalmente porque...',['Es la nota más fácil de tocar','Está en el centro del teclado Y en el centro del gran pentagrama (entre treble y bass)','Es la primera nota que aprenden todos los pianistas','Es la nota del tono de referencia internacional'],1,'El Do Central es el punto de unión entre la clave de Sol (mano derecha) y la clave de Fa (mano izquierda). Está cerca del centro físico del teclado y en el centro del gran pentagrama.'],
   ['¿Cuántos semitonos hay entre el Do Central (C4) y el Do siguiente (C5)?',['6','10','12','7'],2,'Una octava siempre tiene 12 semitonos. De C4 a C5 hay exactamente 12 semitonos = 1 octava.'],
-  ['¿Qué nota es un semitono MÁS GRAVE que el Do Central?',['Si3 (B3)','Re4 (D4)','La#3 (Bb3)','Mi4 (E4)'],0,'Un semitono abajo de C4 es Si3 (B3). La tecla negra anterior a Do no existe (entre Si y Do no hay negra), así que Si es directamente adyacente a Do.'],
-  ['¿Re4 (D4) es MÁS AGUDO que Do4 (C4)?','TF',true,'Sí. Las notas suben de izquierda a derecha. Re4 está a la derecha de Do4, así que es más agudo. Subir = más a la derecha = mayor número MIDI.'],
-  ['¿El Do Central es siempre la misma tecla física independientemente del piano?','TF',true,'Sí. Cualquier piano de 88 teclas tiene el Do Central en la misma posición relativa. Es una convención universal de la notación musical moderna.']
+  ['¿Qué nota es un semitono MÁS GRAVE que el Do Central?',['Si3 (B3)','Re4 (D4)','La#3 (Bb3)','Mi4 (E4)'],0,'Un semitono abajo de C4 es Si3 (B3). No hay tecla negra entre Si y Do (es uno de los semitonos naturales), así que Si es directamente adyacente a Do.'],
+  ['¿Re4 (D4) es MÁS AGUDO que Do4 (C4)?','TF',true,'Sí. Las notas suben de izquierda a derecha en el piano. Re4 está a la derecha de Do4, así que es más agudo.'],
+  ['¿El Do Central es siempre la misma tecla física independientemente del piano?','TF',true,'Sí. Cualquier piano de 88 teclas tiene el Do Central en la misma posición relativa. Es una convención universal de la notación musical.'],
+  ['¿La mano derecha habitualmente toca notas MÁS AGUDAS que el Do Central?','TF',true,'Sí. La mano derecha (MD) toca el registro agudo (por encima del Do Central) y la mano izquierda (MI) toca el grave (por debajo). El Do Central es el punto natural de división entre ambas manos.'],
+  ['¿Cuántas octavas hay entre el Do más grave del piano (C1) y el Do Central (C4)?',['2 octavas','3 octavas','4 octavas','5 octavas'],1,'De Do1 a Do4 hay 3 octavas completas: Do1→Do2 (1ª octava), Do2→Do3 (2ª octava), Do3→Do4 (3ª octava). El número de la octava indica exactamente cuántas octavas desde Do1.']
 ],
 'l2-2':[
   ['¿Cuál es la fórmula de distancias (tonos/semitonos) de la escala MAYOR?',['T-T-T-S-T-T-S','T-S-T-T-T-S-T','T-T-S-T-T-T-S','S-T-T-T-S-T-T'],2,'T-T-S-T-T-T-S (Tono-Tono-Semitono-Tono-Tono-Tono-Semitono). Aprende esto de memoria: es la clave para construir cualquier escala mayor.'],
@@ -1900,7 +2059,7 @@ var EX = {
   ['¿Qué nota es el La del primer espacio de la clave de Fa?',['La2','La3','La4','La1'],1,'El primer espacio (el más bajo) de la clave de Fa es La2. Espacios La-Do-Mi-Sol: espacio1=La2, espacio2=Do3...'],
   ['¿Do3 (C3) está en qué posición de la clave de Fa?',['2ª línea','1ª línea','2° espacio','3er espacio'],2,'Do3 está en el 2° espacio de la clave de Fa. Recordando La-Do-Mi-Sol: espacio1=La2, espacio2=Do3.'],
   ['¿El Do Central conecta visualmente las dos claves en el gran pentagrama?','TF',true,'Sí. En el gran pentagrama, el Do Central aparece en una línea adicional debajo de la clave de Sol Y en una línea adicional encima de la clave de Fa. Es el puente entre ambas.'],
-  ['¿Si3 (B3) está en línea o en espacio en la clave de Fa?',['En la 3ª línea','En el 3er espacio','En la 2ª línea','En el 2° espacio'],0,'Si3 está en la 3ª línea. Recordando Sol-Si-Re-Fa-La: línea1=Sol2, línea2=Si2, línea3=Re3... Espera: Sol2-Si2-Re3-Fa3-La3. Entonces Si2 está en la 2ª línea. Si3 estaría más arriba, en el 3er espacio (La2-Do3-Mi3 para espacios, Si3 llevaría línea adicional). Respuesta correcta: 3er espacio.',['En el 3er espacio','En la 4ª línea','En la 5ª línea','En una línea adicional'],0,'Si3 está en el tercer espacio de la clave de Fa. Espacios: La2(1), Do3(2), Mi3(3)... Si3 va más arriba, en espacio 4.'],
+  ['¿En qué posición está Re3 (D3) en la clave de Fa?',['En el 2° espacio','En la 3ª línea','En la 2ª línea','En el 3er espacio'],1,'Re3 está en la 3ª línea. Las líneas de la clave de Fa de abajo hacia arriba son: Sol2 (1ª), Si2 (2ª), Re3 (3ª), Fa3 (4ª), La3 (5ª). Re3 ocupa exactamente la línea del medio.'],
   ['¿La mano izquierda SIEMPRE lee solo en clave de Fa?','TF',false,'No siempre. En piezas avanzadas, la mano izquierda puede leer en clave de Sol si sube a registros agudos. Y la derecha puede usar clave de Fa en registros graves. Las claves indican registro, no mano.']
 ],
 'l3-3':[
@@ -1922,22 +2081,22 @@ var EX = {
   ['¿Debes mirar tus manos mientras aprendes la melodía?','TF',false,'Evitar mirar las manos entrena el sentido táctil y la memoria de posición. Mirar las manos crea dependencia visual que dificulta leer la partitura mientras tocas.'],
   ['Si el dedo 3 (MD) está en Mi4 al comenzar la Oda a la Alegría, ¿qué dedo toca Sol4?',['Dedo 4 (anular)','Dedo 5 (meñique)','Dedo 2 (índice)','Dedo 1 (pulgar)'],1,'Pentacordio MD: d1=Do4, d2=Re4, d3=Mi4, d4=Fa4, d5=Sol4. La Oda usa d3=Mi, d3=Mi, d4=Fa, d5=Sol para la primera frase.'],
   ['¿Qué hace que una melodía suene MUSICAL y no solo notas correctas?',['Tocar todas las notas al mismo tiempo','Dinámica, articulación (legato/staccato) y fraseo expresivo','Tocar siempre a la misma velocidad','Memorizar la pieza sin partitura'],1,'Las notas correctas son solo el comienzo. La música real viene de la dinámica (volumen), articulación (cómo se conectan) y el fraseo (agrupación expresiva).'],
-  ['¿La Oda a la Alegría pertenece a qué obra de Beethoven?',['5ª Sinfonía','6ª Sinfonía (Pastoral)','9ª Sinfonía','Sonata "Claro de Luna"'],2,'La Oda a la Alegría es el tema principal del 4° movimiento de la 9ª Sinfonía de Beethoven. Hoy es el himno de la Unión Europea.'],
+  ['¿Qué significa añadir MUSICALIDAD a una melodía que ya tocas correctamente?',['Tocar más rápido','Añadir ornamentos y adornos','Incorporar variaciones de volumen, articulación y fraseo expresivo','Memorizar la pieza sin partitura'],2,'La corrección técnica (notas y ritmos) es solo el primer paso. La musicalidad viene de las decisiones expresivas: crescendos, decrescendos, legato en las frases líricas, pequeños acentos en los puntos de tensión. Eso transforma notas en música.'],
   ['En la secuencia "Mi-Mi-Fa-Sol / Sol-Fa-Mi-Re", la última nota Re4 dura...',['1 tiempo (negra)','2 tiempos (blanca)','4 tiempos (redonda)','½ tiempo (corchea)'],1,'Re4 al final de la frase dura 2 tiempos (blanca). Este alargamiento crea el efecto de "cadencia" o descanso en la frase.'],
   ['¿Qué técnica ayuda a aprender una melodía con MH mucho más rápido?',['Tocar siempre ambas manos juntas desde el principio','Memorizar primero el ritmo, luego las notas','Practicar cada sección pequeña hasta dominarla antes de avanzar','Tocar de oído sin leer la partitura'],2,'La práctica por secciones ("chunking") es uno de los métodos más efectivos respaldados por la neurociencia del aprendizaje motor.'],
   ['Escucha estas 4 notas. ¿Reconoces el comienzo de la Oda a la Alegría?',['Sí, es Mi-Mi-Fa-Sol','No, es Do-Re-Mi-Fa','Sí, pero es Sol-Sol-La-Si','No, empieza en Re'],0,'El inicio es Mi-Mi-Fa-Sol (MIDI 64-64-65-67). Este patrón repetición-ascenso es inconfundible.',[64,64,65,67],90]
 ],
 'l4-2':[
-  ['¿Qué notas forman el acorde de DO MAYOR?',['Do-Re-Mi','Do-Mi-Sol','Do-Fa-Sol','Do-Mi-La'],1,'Do-Mi-Sol (C-E-G). Raíz + 3ª mayor + 5ª justa. Este es el acorde más básico y el primero que debe memorizar todo pianista.'],
-  ['¿Qué notas forman el acorde de SOL MAYOR?',['Sol-Si-Re','Sol-La-Re','Sol-Si-Mi','Sol-Do-Re'],0,'Sol-Si-Re (G-B-D). Raíz + 3ª mayor + 5ª justa, aplicado desde Sol.'],
-  ['¿El acorde de Fa Mayor contiene la nota DO?','TF',true,'Sí. Fa Mayor = Fa-La-Do (F-A-C). El Do es la 5ª justa del acorde de Fa.'],
-  ['¿Qué acorde forman las notas La-Do-Mi?',['Do Mayor','Fa Mayor','La Mayor','La menor'],3,'La-Do-Mi es el acorde de La menor (Am). La distancia La→Do es de 3 semitonos (3ª MENOR), lo que lo hace menor, no mayor.'],
-  ['¿Cuántos semitonos hay entre DO y MI dentro del acorde de Do Mayor?',['2','3','4','5'],2,'Do→Do#(1)→Re(2)→Re#(3)→Mi(4). Son 4 semitonos = una 3ª mayor. Esta es la distancia raíz→3ª en TODO acorde mayor.'],
-  ['¿Cuántos semitonos hay entre MI y SOL dentro del acorde de Do Mayor?',['2','3','4','5'],1,'Mi→Fa(1)→Fa#(2)→Sol(3). Son 3 semitonos = una 3ª menor. Esta es la distancia 3ª→5ª en todo acorde mayor.'],
-  ['Si un acorde tiene 3ª MAYOR en la parte inferior, es un acorde...',['Menor','Mayor','Disminuido','Aumentado'],1,'La 3ª mayor (4 semitonos) en la base define los acordes MAYORES. Los menores tienen 3ª menor (3 semitonos) en la base.'],
-  ['¿Qué nota distingue Sol MAYOR de Sol MENOR?',['Sol','Re','Si natural (♮) vs Si bemol (♭)','La'],2,'Sol Mayor = Sol-Si♮-Re. Sol menor = Sol-Si♭-Re. La única diferencia es la tercera: Si natural (mayor) vs Si♭ (menor).'],
-  ['Escucha este acorde. ¿Es Do Mayor?',['Sí, es Do-Mi-Sol','No, es Do-Mi♭-Sol (Do menor)','No, es Do-Fa-Sol (Do sus4)','Sí pero está incompleto'],0,'Do Mayor suena brillante y completo: Do-Mi-Sol tocados juntos.',[60,64,67],90],
-  ['¿Con Do Mayor, Fa Mayor, Sol Mayor y La menor puedes acompañar...?',['Solo música clásica','Solo canciones infantiles','Cientos de canciones pop, folk, rock y clásicas','Solo 3 o 4 canciones específicas'],2,'Estos 4 acordes (I-IV-V-VI en Do Mayor) son la base de incontables canciones. "Let It Be", "No Woman No Cry", "Wonderwall", "Despacito" y muchas más.']
+  ['¿Cuál es la función PRINCIPAL de la mano izquierda (MI) en el piano?',['Tocar la melodía principal','Proporcionar el bajo y el acompañamiento armónico','Controlar el ritmo del metrónomo','Ejecutar los ornamentos melódicos'],1,'La MI tiene el rol de dar el fundamento armónico y rítmico: el bajo marca la raíz de los acordes y el acompañamiento sostiene la armonía. La melodía suele ir en la mano derecha.'],
+  ['En el pentacordio de MI desde Do4 (dedo1=Sol4, dedo5=Do4), ¿qué dedo toca Do4?',['Dedo 1 (pulgar)','Dedo 2 (índice)','Dedo 3 (medio)','Dedo 5 (meñique)'],3,'En la MI, el dedo 5 (meñique) queda a la IZQUIERDA, donde están las notas más graves. Do4 es la nota más grave del pentacordio, así que la toca el meñique (dedo 5).'],
+  ['¿Qué volumen RELATIVO debe tener generalmente la MI respecto a la MD?',['Igual que la MD','Más fuerte para que se escuche el bajo','Más suave, para que destaque la melodía de la MD','Siempre fortissimo independiente del contexto'],2,'La MI debe sonar más suave (~70% del volumen de MD) para que la melodía de la MD destaque. El oído del oyente debe seguir la melodía, no el acompañamiento.'],
+  ['¿Por qué es importante practicar la MI POR SEPARADO antes de unir las manos?',['Porque la MI es siempre más difícil que la MD','Para automatizarla y liberar atención cognitiva al tocar ambas manos','Porque el cerebro no puede procesar dos manos a la vez','Para mejorar la velocidad de los dedos de forma aislada'],1,'Cuando la MI está automatizada (no necesita atención consciente), el cerebro puede dedicarse a la MD. Si la MI requiere concentración, las dos manos generan interferencia cognitiva.'],
+  ['En un patrón grave+agudo de MI (Do grave, Sol agudo), ¿qué dedo toca el Do grave?',['Dedo 1 (pulgar)','Dedo 2 (índice)','Dedo 3 (medio)','Dedo 5 (meñique)'],3,'En la MI, el dedo 5 (meñique) está a la izquierda y toca las notas más graves. En un patrón Do (grave) + Sol (agudo), el meñique toca Do y el pulgar (dedo 1) toca Sol.'],
+  ['¿Cuándo se considera que una mano está AUTOMATIZADA?',['Cuando toca sin errores en una sola pasada','Cuando puede ejecutar su parte sin atención consciente','Cuando memoriza la pieza completa','Cuando alcanza 120 BPM sin metrónomo'],1,'Una mano está automatizada cuando la memoria muscular ya no requiere atención consciente. Puedes conversar o leer mientras la mano toca sola. Ese es el objetivo de la práctica de mano separada.'],
+  ['¿La MI siempre toca en el registro GRAVE del piano?','TF',false,'No siempre. En piezas avanzadas, la MI puede subir al registro agudo (incluso leyendo en clave de Sol), y la MD puede bajar al grave. La convención MD=agudo / MI=grave es práctica para principiantes, no una regla universal.'],
+  ['¿Qué efecto produce el patrón alternado bajo+acorde (ejemplo: Do-grave / Sol-Mi-Do-agudo) en la MI?',['Reproduce la melodía principal','Crea movimiento rítmico y armónico simultáneos que sustentan la MD','Añade ornamentos a la melodía','Duplica exactamente el ritmo de la MD'],1,'El patrón bajo+acorde es muy efectivo: el bajo marca el tiempo fuerte, el acorde rellena los tiempos débiles. Juntos crean la sensación de movimiento y armonía que hace sonar la pieza "completa".'],
+  ['Si la MD toca CORCHEAS y la MI toca NEGRAS, ¿cuántas notas de MD hay por cada nota de MI?',['1 (son iguales)','2 (una negra = dos corcheas)','3','4'],1,'Una negra vale 2 corcheas. Por cada nota de la MI (negra), la MD toca exactamente 2 notas (2 corcheas). Entender esta relación es clave para coordinar las manos.'],
+  ['En el pentacordio de MI (dedo1=Sol4, dedo5=Do4), ¿cuál es la nota MÁS AGUDA?',['Do4 (dedo 5)','Re4 (dedo 4)','Mi4 (dedo 3)','Sol4 (dedo 1)'],3,'Sol4 es la nota más aguda. En la MI, el dedo 1 (pulgar) queda a la DERECHA, donde están las notas más agudas. Dedo1=Sol4 es la nota más alta del pentacordio.']
 ],
 'l4-3':[
   ['¿Cuál es la MAYOR dificultad al tocar con ambas manos simultáneamente?',['Que las teclas están muy separadas','Que el cerebro debe controlar dos secuencias motoras independientes a la vez','Que la mano izquierda es más débil','Que hay que leer dos pentagramas'],1,'La independencia motora bimanual es genuinamente difícil. El cerebro humano tiende a sincronizar los movimientos de ambas manos, y hay que entrenar conscientemente la independencia.'],
@@ -1993,7 +2152,7 @@ var EX = {
   ['Ordena de más SUAVE a más FUERTE: f, pp, mf, p, ff',['pp - p - mf - f - ff','p - pp - f - mf - ff','f - mf - p - pp - ff','pp - mf - p - f - ff'],0,'La escala dinámica estándar: pp (muy suave) → p (suave) → mp (medio suave) → mf (medio fuerte) → f (fuerte) → ff (muy fuerte).'],
   ['"Crescendo" significa...',['Tocar más rápido','Aumentar gradualmente el volumen','Disminuir gradualmente el volumen','Tocar con pedal de sustain'],1,'"Crescendo" (del italiano, "creciendo") = aumentar progresivamente la intensidad. Su símbolo es < (el ángulo que se abre).'],
   ['¿El símbolo gráfico "<" en música indica CRESCENDO?','TF',true,'Sí. El ángulo que se abre (como "<" o en forma de cuerno que se ensancha hacia la derecha) indica que el volumen debe aumentar progresivamente.'],
-  ['¿Por qué el instrumento se llama "piano" y no "forte" o "cembalo"?',['El inventor se llamaba Piano Cristofori','"Piano" es más corto y fácil de decir','Es la abreviación de "pianoforte" que con el tiempo se simplificó en uso coloquial','El instrumento solo puede tocar suave'],2,'El nombre completo original era "gravicembalo col piano e forte" (clavicémbalo que toca suave y fuerte). Se simplificó primero a "pianoforte" y luego a "piano".'],
+  ['¿Cuál es la dinámica más apropiada para transmitir misterio e intensidad contenida?',['ff (fortissimo)','mf (mezzo-forte)','pp o p — el misterio vive en la suavidad y la tensión','sfz (sforzando)'],2,'El misterio y la intensidad contenida se transmiten en la suavidad (pp, p). El silencio y la dinámica baja crean expectativa. Un fortissimo puede ser poderoso, pero no misterioso.'],
   ['¿Qué significa "sforzando" (sfz)?',['Tocar muy suave de repente','Un acento o impulso fuerte repentino en una nota','Tocar con el pedal sin soltar','Accelerando (acelerar)'],1,'"Sforzando" (sfz) o "sforzato" es un acento súbito — una nota que se toca con fuerza repentina, independientemente de la dinámica general de la pieza.'],
   ['¿Dos piezas con las mismas notas y el mismo tempo pero diferente dinámica suenan iguales?','TF',false,'Falso. La dinámica es parte fundamental de la expresión musical. La misma melodía a pp suena íntima y misteriosa; a ff suena poderosa y dramática.'],
   ['"Diminuendo" o "decrescendo" significa...',['Disminuir gradualmente el volumen','Tocar más lento gradualmente','Bajar el tono (afinar más grave)','Acortar las notas'],0,'"Diminuendo" (disminuyendo) = bajar gradualmente la intensidad. Su símbolo es > (el ángulo que se cierra). Opuesto al crescendo.'],
@@ -2048,10 +2207,10 @@ var EX = {
   ['La escala menor MELÓDICA tiene la característica especial de...',['Tener el mismo número de notas que otras escalas','Subir con el 6° y 7° grados elevados, y BAJAR con la forma natural (menor natural)','Ser idéntica a la armónica','No tener semitonos'],1,'La menor melódica usa una forma diferente al subir (6° y 7° elevados para cantar mejor la melodía ascendente) y al bajar (forma natural, más oscura). Es única en este aspecto.']
 ],
 'l7-3':[
-  ['¿A qué sinfonía de Beethoven pertenece la Oda a la Alegría?',['5ª Sinfonía','7ª Sinfonía','9ª Sinfonía','6ª Sinfonía (Pastoral)'],2,'La Oda a la Alegría es el tema central del 4° movimiento de la 9ª Sinfonía de Beethoven (Op. 125), compuesta entre 1822-1824.'],
-  ['¿En qué movimiento de la 9ª Sinfonía aparece la Oda a la Alegría?',['1° movimiento','2° movimiento','3° movimiento','4° movimiento (final)'],3,'El 4° movimiento (el último) es el más famoso. Es único en la historia: es la primera sinfonía que incorpora voces humanas (coro y solistas) junto a la orquesta.'],
-  ['¿Beethoven era completamente sordo cuando compuso la 9ª Sinfonía?','TF',true,'Verdadero. Beethoven perdió completamente la audición años antes. Compuso la 9ª Sinfonía sin poder escuchar una sola nota. Al estrenarla (1824), tuvo que ser girado para ver los aplausos del público, pues no los escuchaba.'],
-  ['¿Cuántas notas DISTINTAS usa la primera frase de la Oda a la Alegría (Mi-Mi-Fa-Sol-Sol-Fa-Mi-Re)?',['3','4','5','6'],2,'Mi, Fa, Sol, Re — son 4 notas distintas en la primera frase de 8 notas. Beethoven logró una melodía memorable con recursos mínimos.'],
+  ['¿Qué significa "practicar LENTO" y por qué es tan efectivo?',['Tocar sin metrónomo para ser más libre','El cerebro registra cada movimiento sin errores, formando la memoria muscular correcta','Practicar solo una hora al día','Reducir el tempo hasta no escuchar las notas'],1,'A velocidad lenta, el cerebro puede procesar conscientemente cada movimiento y registrarlo sin errores. La velocidad llega sola una vez que la secuencia motora está grabada correctamente. Practicar errores a alta velocidad los consolida.'],
+  ['¿Cuándo es el momento CORRECTO de subir el tempo?',['Después de 10 minutos de práctica','Cuando ya tocas el pasaje sin errores de forma consistente al tempo actual','Cuando alguien te diga que subas','Cada vez que practicas la misma sección'],1,'Solo sube el tempo cuando el pasaje sale perfectamente (sin errores de nota, ritmo ni articulación) varias veces seguidas. Subir antes consolida los errores en la memoria muscular.'],
+  ['Un "plateau" (período sin avance aparente) en el aprendizaje musical indica...',['Que debes practicar más horas diarias','Que alcanzaste tu límite de habilidad con ese instrumento','Que el cerebro está consolidando internamente antes del siguiente salto de habilidad','Que debes cambiar de método completamente'],2,'El plateau es normal y necesario. El cerebro consolida la memoria motora durante períodos de aparente estancamiento. Después de un plateau bien trabajado, el avance suele ser notorio. No lo interpretes como fracaso.'],
+  ['¿Cuántas notas DISTINTAS usa la primera frase de la Oda a la Alegría (Mi-Mi-Fa-Sol-Sol-Fa-Mi-Re)?',['3','4','5','6'],1,'Mi, Fa, Sol, Re — son 4 notas distintas en la primera frase de 8 notas. Una melodía memorable con recursos mínimos: muestra que la simplicidad bien usada es poderosa.'],
   ['¿Cuál es el método más efectivo para MEMORIZAR una pieza?',['Tocarla completa muchas veces seguidas','Dividir en secciones pequeñas y memorizar cada una antes de conectarlas','Escucharla grabada hasta aprenderla','Tocarla de noche antes de dormir'],1,'El "método de chunks" o secciones es respaldado por la neurociencia. El cerebro consolida la memoria motora mejor en fragmentos pequeños que en repeticiones masivas de la pieza completa.'],
   ['En la versión simplificada de la Oda a la Alegría, ¿cuál suele ser el PRIMER acorde de la mano izquierda?',['Sol Mayor','Fa Mayor','La menor','Do Mayor'],3,'La Oda a la Alegría en la versión para principiantes comienza en el acorde de Do Mayor en la MI. La melodía empieza en Mi4, que es la 3ª de Do Mayor.'],
   ['¿La Oda a la Alegría usa las 12 notas cromáticas?','TF',false,'Falso. La melodía usa principalmente notas diatónicas (de la escala, sin muchas alteraciones). En la versión simplificada en Do Mayor, usa principalmente Do-Re-Mi-Fa-Sol con alguna variación.'],
@@ -2113,10 +2272,20 @@ function renderExercisesBlock(lid) {
 
   var html = '';
 
-  // ── l3-3 gets the fill-in-blank sheet first ──
+  // ── fill-in-blank activity sheets ──
+  if (lid === 'l2-2') {
+    html += '<div class="section-header" style="margin-top:40px"><h2>✦ Actividades</h2><div class="line"></div></div>';
+    html += makeActivitySheetEscala();
+    html += '<div class="section-header" style="margin-top:32px"><h2>Preguntas de comprensión</h2><div class="line"></div></div>';
+  }
   if (lid === 'l3-3') {
     html += '<div class="section-header" style="margin-top:40px"><h2>✦ Actividades</h2><div class="line"></div></div>';
     html += makeActivitySheetRitmo();
+    html += '<div class="section-header" style="margin-top:32px"><h2>Preguntas de comprensión</h2><div class="line"></div></div>';
+  }
+  if (lid === 'l5-1') {
+    html += '<div class="section-header" style="margin-top:40px"><h2>✦ Actividades</h2><div class="line"></div></div>';
+    html += makeActivitySheetAcordes();
     html += '<div class="section-header" style="margin-top:32px"><h2>Preguntas de comprensión</h2><div class="line"></div></div>';
   }
 
