@@ -394,12 +394,115 @@ body::before{
 .pdg-songs{background:linear-gradient(135deg,rgba(251,191,36,.07),rgba(245,158,11,.04));border:1px solid rgba(251,191,36,.2);border-left:3px solid #fbbf24}
 .pdg-songs .pdg-lbl{color:#fbbf24}
 .pdg-songs p{color:#fef3c7}
+
+/* ═══ GLOSARIO MUSICAL ═══ */
+#glos-float{position:fixed;bottom:22px;right:230px;z-index:2000;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.glos-panel{
+  background:linear-gradient(150deg,#0a0030,#140040,#080018);
+  border:1.5px solid rgba(253,230,138,.42);border-radius:20px;
+  width:370px;max-height:500px;display:none;flex-direction:column;
+  box-shadow:0 8px 40px rgba(180,130,0,.38),0 0 0 1px rgba(253,230,138,.07),inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter:blur(22px);
+  animation:miaIn .28s cubic-bezier(.34,1.56,.64,1);
+}
+.glos-open .glos-panel{display:flex}
+.glos-hdr{display:flex;align-items:center;gap:10px;padding:18px 20px 13px;border-bottom:1px solid rgba(253,230,138,.14);flex-shrink:0}
+.glos-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#78350f,#d97706,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0;box-shadow:0 0 14px rgba(253,230,138,.5)}
+.glos-nm{font-size:.86rem;font-weight:700;color:#fde68a;text-transform:uppercase;letter-spacing:1.2px}
+.glos-sub{font-size:.76rem;color:#92400e}
+.glos-search{padding:10px 14px 6px;flex-shrink:0}
+.glos-search input{width:100%;background:rgba(253,230,138,.06);border:1px solid rgba(253,230,138,.22);border-radius:10px;padding:8px 12px;color:#fde68a;font-size:.88rem;outline:none;font-family:inherit;transition:all .15s}
+.glos-search input::placeholder{color:rgba(253,230,138,.32)}
+.glos-search input:focus{border-color:rgba(253,230,138,.52);background:rgba(253,230,138,.1)}
+.glos-list{overflow-y:auto;padding:2px 14px 14px;flex:1}
+.glos-list::-webkit-scrollbar{width:3px}
+.glos-list::-webkit-scrollbar-thumb{background:rgba(253,230,138,.22);border-radius:2px}
+.glos-item{padding:10px 0;border-bottom:1px solid rgba(253,230,138,.08);cursor:pointer}
+.glos-item:last-child{border-bottom:none}
+.glos-term-row{display:flex;align-items:center;gap:6px}
+.glos-term{font-size:.94rem;font-weight:700;color:#fbbf24;transition:color .15s}
+.glos-item:hover .glos-term,.glos-item.open .glos-term{color:#fde68a}
+.glos-tag{font-size:.68rem;padding:1px 7px;border-radius:6px;font-weight:600;flex-shrink:0}
+.glos-tag.teoria{background:rgba(139,92,246,.28);color:#c4b5fd}
+.glos-tag.ritmo{background:rgba(236,72,153,.22);color:#f9a8d4}
+.glos-tag.expresion{background:rgba(16,185,129,.2);color:#6ee7b7}
+.glos-tag.tecnica{background:rgba(56,189,248,.2);color:#7dd3fc}
+.glos-def{font-size:.87rem;color:#d6b87a;line-height:1.65;display:none;padding-top:6px}
+.glos-item.open .glos-def{display:block}
+.glos-arrow{font-size:.7rem;color:rgba(253,230,138,.35);margin-left:auto;transition:transform .15s;flex-shrink:0}
+.glos-item.open .glos-arrow{transform:rotate(90deg);color:rgba(253,230,138,.7)}
+.glos-empty{text-align:center;color:rgba(253,230,138,.28);font-size:.88rem;padding:24px 0}
+.glos-tog{
+  background:linear-gradient(135deg,#78350f,#b45309,#d97706);
+  border:none;border-radius:50px;padding:13px 22px;
+  color:#fef3c7;font-size:.94rem;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:9px;
+  box-shadow:0 4px 22px rgba(180,100,0,.58),0 0 0 1px rgba(253,230,138,.18);
+  transition:all .22s;position:relative;overflow:hidden;
+}
+.glos-tog::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,.07));pointer-events:none}
+.glos-tog:hover{transform:scale(1.06) translateY(-2px);box-shadow:0 6px 30px rgba(180,100,0,.72)}
+.glos-dot{width:7px;height:7px;border-radius:50%;background:#fde68a;animation:pulseMia 2.2s ease-in-out infinite;flex-shrink:0}
+
+/* ═══ HOJA DE ACTIVIDADES DIDÁCTICA ═══ */
+.act-sheet{border-radius:20px;overflow:hidden;margin-bottom:28px;box-shadow:0 8px 48px rgba(0,0,0,.55),0 0 0 1px rgba(168,85,247,.1)}
+.act-top{background:linear-gradient(135deg,#1e1b4b,#312e81);padding:20px 28px 0;text-align:center}
+.act-top-title{font-size:1.8rem;font-weight:900;color:#fff;letter-spacing:3px;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:12px;padding-bottom:12px}
+.act-top-sub{background:#e11d48;margin:0 -28px;padding:9px 28px;font-size:.82rem;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:1.4px;text-align:center}
+.act-body{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px;background:#f5f3ff}
+.act-sec{border-radius:14px;padding:15px 17px;border:2.5px solid}
+.act-sec-full{grid-column:1/-1;border-radius:14px;padding:15px 17px;border:2.5px solid}
+.act-sec-title{font-size:.98rem;font-weight:900;text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px}
+.act-sec-desc{font-size:.75rem;color:#555;margin-bottom:13px;font-style:italic}
+.act-prob{display:flex;align-items:center;gap:7px;margin-bottom:11px;flex-wrap:nowrap}
+.act-pnum{font-size:1.1rem;font-weight:900;min-width:22px;flex-shrink:0}
+.act-sym{font-size:1.55rem;line-height:1.1;flex-shrink:0;cursor:default}
+.act-oper{font-size:1.15rem;font-weight:800;color:#444;flex-shrink:0;padding:0 2px}
+.act-eq{font-size:1.1rem;font-weight:700;color:#444;flex-shrink:0;padding:0 2px}
+.act-inp{width:54px;height:34px;border:2.5px solid;border-radius:8px;text-align:center;font-size:1rem;font-weight:700;color:#1e1b4b;background:#fff;outline:none;transition:all .15s;font-family:-apple-system,sans-serif;flex-shrink:0}
+.act-inp:focus{box-shadow:0 0 0 3px rgba(0,0,0,.12)}
+.act-unit{font-size:.75rem;color:#666;font-weight:600;flex-shrink:0}
+.act-fb{font-size:1rem;font-weight:900;flex-shrink:0;min-width:14px}
+.act-e-row{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;align-items:flex-end}
+.act-e-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.act-e-sym{font-size:1.75rem;line-height:1.1}
+.act-e-inp{width:62px;height:34px;border:2.5px solid;border-radius:8px;text-align:center;font-size:1rem;font-weight:700;color:#1e1b4b;background:#fff;outline:none;transition:all .15s;font-family:-apple-system,sans-serif}
+.act-e-label{font-size:.7rem;color:#777;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.act-recuerda{grid-column:1/-1;background:#fefce8;border:2.5px solid #fbbf24;border-radius:12px;padding:11px 16px;font-size:.85rem;color:#713f12;display:flex;align-items:flex-start;gap:10px;line-height:1.6}
+.act-recuerda b{color:#92400e}
+/* Section color palettes */
+.act-sec.a-green{border-color:#16a34a;background:#f0fdf4}
+.act-sec.a-green .act-sec-title{color:#15803d}
+.act-sec.b-pink{border-color:#e11d48;background:#fff1f2}
+.act-sec.b-pink .act-sec-title{color:#be123c}
+.act-sec.c-blue{border-color:#2563eb;background:#eff6ff}
+.act-sec.c-blue .act-sec-title{color:#1d4ed8}
+.act-sec.d-purple{border-color:#7c3aed;background:#faf5ff}
+.act-sec.d-purple .act-sec-title{color:#6d28d9}
+.act-sec-full.e-orange{border-color:#d97706;background:#fffbeb}
+.act-sec-full.e-orange .act-sec-title{color:#b45309}
 </style>
 </head>
 <body>
 
 <!-- AURORA BACKGROUND BLOBS -->
 <div class="aurora"></div>
+
+<!-- GLOSARIO MUSICAL -->
+<div id="glos-float">
+  <div class="glos-panel">
+    <div class="glos-hdr">
+      <div class="glos-av">📖</div>
+      <div><div class="glos-nm">Glosario Musical</div><div class="glos-sub">Términos de piano y teoría</div></div>
+    </div>
+    <div class="glos-search"><input type="text" id="glos-q" placeholder="Buscar término..." oninput="glosSearch(this.value)" autocomplete="off"></div>
+    <div class="glos-list" id="glos-list"></div>
+  </div>
+  <button class="glos-tog" onclick="toggleGlos()">
+    <span class="glos-dot"></span>
+    <span>📖 Glosario</span>
+  </button>
+</div>
 
 <!-- IA TUTORA MÍA -->
 <div id="mia-float">
@@ -738,6 +841,155 @@ function answerEx(id, chosen, correct, el) {
 }
 
 // ═══════════════════════════════════════════
+// HOJAS DE ACTIVIDADES DIDÁCTICAS
+// ═══════════════════════════════════════════
+var _actId = 0;
+
+function actNorm(s) {
+  if (!s) return NaN;
+  s = s.toString().trim().replace(',', '.');
+  s = s.replace('½', '.5').replace('¼', '.25').replace('¾', '.75');
+  // Handle "1½" → "1.5"
+  s = s.replace(/^(\d+)\.5$/, function(m, d) { return (parseFloat(d) + 0.5) + ''; });
+  // Simple fraction "1/2"
+  if (/^\d+\/\d+$/.test(s)) { var p = s.split('/'); return parseFloat(p[0]) / parseFloat(p[1]); }
+  return parseFloat(s);
+}
+
+function actValidate(id, ans) {
+  var inp = document.getElementById(id);
+  if (!inp) return;
+  if (!inp.value.trim()) {
+    inp.style.borderColor = inp.getAttribute('data-bc') || '#ccc';
+    inp.style.background = '#fff';
+    var fb0 = document.getElementById('fb-' + id);
+    if (fb0) fb0.textContent = '';
+    return;
+  }
+  var v = actNorm(inp.value);
+  var ok = !isNaN(v) && Math.abs(v - ans) < 0.001;
+  inp.style.borderColor = ok ? '#16a34a' : '#dc2626';
+  inp.style.background  = ok ? '#f0fdf4' : '#fef2f2';
+  inp.style.color       = ok ? '#14532d' : '#7f1d1d';
+  var fb = document.getElementById('fb-' + id);
+  if (!fb) { fb = document.createElement('span'); fb.id = 'fb-' + id; fb.className = 'act-fb'; inp.parentNode.insertBefore(fb, inp.nextSibling); }
+  fb.textContent = ok ? '✓' : '✗';
+  fb.style.color = ok ? '#16a34a' : '#dc2626';
+}
+
+function _ai(ans, bc, cls) {
+  var id = 'act' + (++_actId);
+  cls = cls || 'act-inp';
+  return '<input id="' + id + '" type="text" class="' + cls + '" data-ans="' + ans + '" data-bc="' + bc + '" placeholder="?" '
+    + 'style="border-color:' + bc + '" '
+    + 'oninput="actValidate(\'' + id + '\',' + ans + ')" '
+    + 'onblur="actValidate(\'' + id + '\',' + ans + ')">'
+    + '<span id="fb-' + id + '" class="act-fb"></span>';
+}
+
+function _prob(num, nc, a, op, b, ans, bc) {
+  return '<div class="act-prob">'
+    + '<span class="act-pnum" style="color:' + nc + '">' + num + '.</span>'
+    + '<span class="act-sym" title="' + a.n + ' = ' + a.v + ' tiempos">' + a.s + '</span>'
+    + '<span class="act-oper">' + op + '</span>'
+    + '<span class="act-sym" title="' + b.n + ' = ' + b.v + ' tiempos">' + b.s + '</span>'
+    + '<span class="act-eq">=</span>'
+    + _ai(ans, bc)
+    + '<span class="act-unit">tiempos</span>'
+    + '</div>';
+}
+
+function _eItem(s, name, ans, bc) {
+  return '<div class="act-e-item">'
+    + '<span class="act-e-sym" title="' + name + '">' + s + '</span>'
+    + _ai(ans, bc, 'act-e-inp')
+    + '<span class="act-e-label">tiempos</span>'
+    + '</div>';
+}
+
+function makeActivitySheetRitmo() {
+  // Note/rest objects  {s: symbol, n: name, v: value}
+  var N   = {s:'𝅘𝅥',   n:'Negra',                   v:1};
+  var Nd  = {s:'𝅘𝅥·',  n:'Negra con puntillo',       v:1.5};
+  var B   = {s:'𝅗𝅥',   n:'Blanca',                   v:2};
+  var Bd  = {s:'𝅗𝅥·',  n:'Blanca con puntillo',      v:3};
+  var R   = {s:'𝅝',    n:'Redonda',                  v:4};
+  var Rd  = {s:'𝅝·',   n:'Redonda con puntillo',     v:6};
+  var C   = {s:'𝅘𝅥𝅮',  n:'Corchea',                  v:0.5};
+  var SBd = {s:'𝄼·',   n:'Silencio de blanca con puntillo', v:3};
+  var SN  = {s:'𝄽',    n:'Silencio de negra',         v:1};
+  var SNd = {s:'𝄽·',   n:'Silencio de negra con puntillo', v:1.5};
+  var SC  = {s:'𝄾',    n:'Silencio de corchea',       v:0.5};
+
+  var ga='#16a34a', pa='#e11d48', ba='#2563eb', va='#7c3aed', oa='#d97706';
+
+  var secA = '<div class="act-sec a-green">'
+    + '<div class="act-sec-title">A. Sumas</div>'
+    + '<div class="act-sec-desc">Calcula el total de tiempos.</div>'
+    + _prob(1, ga, N,  '+', B,  3,   ga)
+    + _prob(2, ga, Bd, '+', N,  4,   ga)
+    + _prob(3, ga, C,  '+', N,  1.5, ga)
+    + _prob(4, ga, Nd, '+', Nd, 3,   ga)
+    + _prob(5, ga, C,  '+', Nd, 2,   ga)
+    + '</div>';
+
+  var secB = '<div class="act-sec b-pink">'
+    + '<div class="act-sec-title">B. Restas</div>'
+    + '<div class="act-sec-desc">Calcula el resto de tiempos.</div>'
+    + _prob(1, pa, Bd, '−', N,  2,   pa)
+    + _prob(2, pa, Bd, '−', C,  2.5, pa)
+    + _prob(3, pa, R,  '−', Bd, 1,   pa)
+    + _prob(4, pa, N,  '−', C,  0.5, pa)
+    + _prob(5, pa, Rd, '−', Bd, 3,   pa)
+    + '</div>';
+
+  var secC = '<div class="act-sec c-blue">'
+    + '<div class="act-sec-title">C. Sumas con silencios</div>'
+    + '<div class="act-sec-desc">Calcula el total de tiempos.</div>'
+    + _prob(1, ba, SNd, '+', N,  2.5, ba)
+    + _prob(2, ba, SC,  '+', Nd, 2,   ba)
+    + '</div>';
+
+  var secD = '<div class="act-sec d-purple">'
+    + '<div class="act-sec-title">D. Restas con silencios</div>'
+    + '<div class="act-sec-desc">Calcula el resto de tiempos.</div>'
+    + _prob(1, va, SBd, '−', SC, 2.5, va)
+    + _prob(2, va, SN,  '−', SC, 0.5, va)
+    + '</div>';
+
+  var secE = '<div class="act-sec-full e-orange">'
+    + '<div class="act-sec-title">E. Escribe el valor en tiempos</div>'
+    + '<div class="act-sec-desc">¿Cuántos tiempos vale cada figura o silencio con puntillo?</div>'
+    + '<div class="act-e-row">'
+    + _eItem(N.s,   'Negra',                          1,   oa)
+    + _eItem(Nd.s,  'Negra con puntillo',              1.5, oa)
+    + _eItem(C.s,   'Corchea',                         0.5, oa)
+    + _eItem(Rd.s,  'Redonda con puntillo',             6,  oa)
+    + _eItem(SBd.s, 'Silencio de blanca con puntillo',  3,  oa)
+    + _eItem(SC.s,  'Silencio de corchea',              0.5, oa)
+    + '</div>'
+    + '</div>';
+
+  var recuerda = '<div class="act-recuerda">'
+    + '<span style="font-size:1.4rem;flex-shrink:0">⭐</span>'
+    + '<span><b>Recuerda:</b> el puntillo agrega la <b>mitad</b> del valor de la figura o el silencio. '
+    + 'Negra (1) + puntillo (½) = Negra· (1½). '
+    + 'Blanca (2) + puntillo (1) = Blanca· (3). '
+    + 'Escribe los medios como "½", "0.5" o "1/2".</span>'
+    + '</div>';
+
+  return '<div class="act-sheet">'
+    + '<div class="act-top">'
+    + '<div class="act-top-title"><span style="font-size:1.2rem">✦</span> Actividades <span style="font-size:1.2rem">✦</span></div>'
+    + '<div class="act-top-sub">Sumas y restas de figuras y silencios con puntillo</div>'
+    + '</div>'
+    + '<div class="act-body">'
+    + secA + secB + secC + secD + secE + recuerda
+    + '</div>'
+    + '</div>';
+}
+
+// ═══════════════════════════════════════════
 // LESSONS CONTENT
 // ═══════════════════════════════════════════
 var LESSONS = {};
@@ -1016,7 +1268,8 @@ LESSONS['l3-3'] = function() {
   insight('🥁', '<b>El pulso vs. el ritmo:</b> El pulso es el latido constante de la música (lo que marca el metrónomo). El ritmo es el patrón de duraciones de las notas que se superpone sobre ese pulso. Puedes tener el mismo pulso pero ritmos completamente diferentes. El metrónomo marca el pulso; tú pones el ritmo.') +
   callout('<b>El punto de aumento:</b> Cuando una nota tiene un pequeño punto a su derecha, su duración se multiplica por 1.5. Una negra con punto dura 1.5 tiempos (una negra + una corchea). Una blanca con punto dura 3 tiempos. Este detalle aparece todo el tiempo en música, especialmente en ritmos de vals (3/4) y baladas.') +
   magicBox('Ejercicio de palmas', 'Pon el metrónomo en 60 BPM. Aplaude en cada tiempo (negras). Luego aplaude dos veces por tiempo (corcheas). Luego alterna: dos tiempos aplaudiendo negras, dos tiempos aplaudiendo corcheas. Este ejercicio entrena tu sentido del ritmo antes de llegar al teclado.') +
-  makeExercise('ex3-3', '¿Cuántos tiempos dura una blanca en un compás de 4/4?', ['1 tiempo', '4 tiempos', '2 tiempos', '3 tiempos'], 2) +
+  sectionHeader('Actividades') +
+  makeActivitySheetRitmo() +
   completeBtn();
 };
 
@@ -2104,6 +2357,92 @@ function miaRender() {
 function miaNext() { var d=MIA_DATA[currentLesson]; if(d){_mia.idx=(_mia.idx+1)%d.tips.length; miaRender();} }
 function miaPrev() { var d=MIA_DATA[currentLesson]; if(d){_mia.idx=(_mia.idx-1+d.tips.length)%d.tips.length; miaRender();} }
 function toggleMiaPlan() { _mia.planOpen=!_mia.planOpen; miaRender(); }
+
+// ═══════════════════════════════════════════
+// GLOSARIO MUSICAL
+// ═══════════════════════════════════════════
+var GLOSARIO = [
+  {t:'Acorde',       cat:'teoria',     d:'Tres o más notas tocadas simultáneamente. La forma más básica es la <b>tríada</b> (tres notas). Los acordes crean la armonía y el color emocional de la música.'},
+  {t:'Acorde mayor', cat:'teoria',     d:'Tríada con una tercera mayor (4 semitonos) y una quinta justa (7 semitonos). Suena luminoso, estable, "feliz". Fórmula: <b>1-4-3</b> semitonos.'},
+  {t:'Acorde menor', cat:'teoria',     d:'Tríada con una tercera <em>menor</em> (3 semitonos) y una quinta justa (7 semitonos). Suena íntimo, melancólico, emotivo. Fórmula: <b>1-3-4</b> semitonos.'},
+  {t:'Arpegio',      cat:'tecnica',    d:'Tocar las notas de un acorde una por una en lugar de simultáneamente. Se usa frecuentemente en el acompañamiento de mano izquierda para dar movimiento y textura.'},
+  {t:'Armónica (escala menor)', cat:'teoria', d:'Variante de la escala menor que eleva el 7° grado un semitono (Sol# en La menor). Crea una cadencia dominante más poderosa y un sabor característico árabe o flamenco.'},
+  {t:'Articulación', cat:'expresion',  d:'La forma en que conectas o separas las notas: <b>legato</b> (unidas y fluidas) o <b>staccato</b> (cortas y separadas). Es la diferencia entre susurrar y puntuar.'},
+  {t:'Bemol (♭)',    cat:'teoria',     d:'Símbolo que baja una nota un semitono. La tecla negra entre Re y Mi puede llamarse Re♭ o Mi♭. Dos nombres para la misma tecla: <em>enarmónicos</em>.'},
+  {t:'BPM',          cat:'ritmo',      d:'<b>Beats Per Minute</b> (Pulsos por minuto). Mide la velocidad del tempo. 60 BPM = 1 pulso por segundo. 120 BPM = 2 pulsos por segundo. El metrónomo marca los BPM.'},
+  {t:'Clave de Fa',  cat:'teoria',     d:'Símbolo al inicio del pentagrama inferior del Gran Pentagrama. Indica que las notas son graves (mano izquierda). Su línea de referencia central es el <b>Fa3</b>.'},
+  {t:'Clave de Sol', cat:'teoria',     d:'Símbolo al inicio del pentagrama superior del Gran Pentagrama. La espiral de la clave rodea la 2ª línea, que es <b>Sol4</b>. Se usa principalmente para la mano derecha.'},
+  {t:'Compás',       cat:'ritmo',      d:'Unidad de tiempo que agrupa los tiempos en grupos regulares. En <b>4/4</b> hay 4 tiempos por compás. En <b>3/4</b> hay 3 (como un vals). Las barras de compás dividen el pentagrama.'},
+  {t:'Corchea',      cat:'ritmo',      d:'Figura rítmica que vale <b>½ tiempo</b> (medio pulso). En 4/4, caben 8 corcheas por compás. Se dibuja como una negra con una correa o bandera en su palito.'},
+  {t:'Crescendo',    cat:'expresion',  d:'Indicación de que la música debe ir aumentando gradualmente de volumen. Se representa con el símbolo <b>&lt;</b> (cuña que se abre). Opuesto: decrescendo o diminuendo.'},
+  {t:'Decrescendo',  cat:'expresion',  d:'Indicación de disminución gradual del volumen. También llamado <b>diminuendo</b>. Se representa con el símbolo <b>&gt;</b> (cuña que se cierra). Opuesto: crescendo.'},
+  {t:'Digitación',   cat:'tecnica',    d:'Numeración de los dedos: 1=pulgar, 2=índice, 3=medio, 4=anular, 5=meñique. La digitación correcta es esencial para tocar fluido, eficiente y sin lesiones.'},
+  {t:'Dinámica',     cat:'expresion',  d:'El nivel de volumen en la música. Términos clave: <b>pp</b> (muy suave), <b>p</b> (suave), <b>mp</b> (medio suave), <b>mf</b> (medio fuerte), <b>f</b> (fuerte), <b>ff</b> (muy fuerte).'},
+  {t:'Do Central',   cat:'teoria',     d:'El Do ubicado al centro del piano (MIDI 60, C4, 261.63 Hz). Es el punto de referencia del Gran Pentagrama: aparece en una línea adicional flotante entre ambos pentagramas.'},
+  {t:'Dominante',    cat:'teoria',     d:'El 5° grado de la escala (Sol en Do Mayor). Su acorde crea tensión que "quiere" resolver a la tónica. La cadencia V→I es la más satisfactoria de la música occidental.'},
+  {t:'Escala',       cat:'teoria',     d:'Secuencia de notas ordenadas por altura siguiendo una fórmula de tonos y semitonos. La escala define la "paleta de colores" de una tonalidad. La más común: <b>escala mayor</b>.'},
+  {t:'Escala mayor', cat:'teoria',     d:'Escala de 7 notas con la fórmula <b>T-T-S-T-T-T-S</b> (Tono-Tono-Semitono...). Do Mayor usa solo teclas blancas. Su sonido es luminoso y estable.'},
+  {t:'Escala menor natural', cat:'teoria', d:'Escala de 7 notas con la fórmula <b>T-S-T-T-S-T-T</b>. La menor relativa de Do Mayor es La menor (mismas notas, diferente tónica). Sonido íntimo y complejo.'},
+  {t:'Escala pentatónica', cat:'teoria', d:'Escala de <b>5 notas</b> sin semitonos (Do-Re-Mi-Sol-La en Do Mayor). Cualquier nota suena bien sobre cualquier acorde de la tonalidad. Es el vocabulario universal de la improvisación.'},
+  {t:'Forte (f)',    cat:'expresion',  d:'Indicación dinámica: tocar <b>fuerte</b>. Requiere más peso del brazo en el ataque de la tecla. <em>Fortissimo (ff)</em> = muy fuerte. Del italiano "forte" = fuerte.'},
+  {t:'Gran Pentagrama', cat:'teoria', d:'El sistema de dos pentagramas unidos (clave de Sol arriba, clave de Fa abajo) usado para escribir música de piano. El Do Central es el puente visual entre ambos.'},
+  {t:'Intervalo',    cat:'teoria',     d:'La distancia entre dos notas. Se mide en semitonos o por nombre (2ª, 3ª, 5ª...). La <b>octava</b> tiene 12 semitonos. La <b>tercera mayor</b> tiene 4 semitonos.'},
+  {t:'Legato',       cat:'expresion',  d:'Articulación en que las notas se tocan unidas y fluidas, sin silencio entre ellas. El dedo B toca antes de que el dedo A levante. Produce una línea melódica cantada y continua.'},
+  {t:'Metrónomo',    cat:'ritmo',      d:'Dispositivo (o app) que marca pulsos a un BPM constante. Esencial para aprender a tocar con tempo estable. La función TAP permite detectar el BPM de una canción.'},
+  {t:'Negra',        cat:'ritmo',      d:'Figura rítmica que vale <b>1 tiempo</b> (1 pulso). Es la unidad básica de muchos compases. En 4/4, caben 4 negras por compás. Se dibuja como una cabeza ovalada rellena con palito.'},
+  {t:'Notas (nombres)', cat:'teoria', d:'Las 7 notas en español: <b>Do, Re, Mi, Fa, Sol, La, Si</b>. Se repiten cada octava subiendo o bajando. En sistema anglosajón: C, D, E, F, G, A, B.'},
+  {t:'Octava',       cat:'teoria',     d:'Intervalo de 12 semitonos que separa dos notas del mismo nombre. El Do4 y el Do5 son una octava. La frecuencia se duplica: Do4 = 261 Hz, Do5 = 522 Hz. El teclado tiene casi 8 octavas.'},
+  {t:'Pedal de sustain', cat:'tecnica', d:'El pedal derecho del piano. Mantiene sonando las notas después de soltar las teclas, creando resonancia y profundidad. Debe usarse con cuidado para no empastar las armonías.'},
+  {t:'Pentagrama',   cat:'teoria',     d:'Las <b>5 líneas horizontales</b> sobre las que se escriben las notas musicales. Las notas van en líneas o en espacios. El Gran Pentagrama usa dos pentagramas juntos.'},
+  {t:'Piano (p)',    cat:'expresion',  d:'Indicación dinámica: tocar <b>suave</b>. Se logra con solo el peso del dedo, sin apoyo del brazo. <em>Pianissimo (pp)</em> = muy suave. Del italiano "piano" = suave.'},
+  {t:'Postura',      cat:'tecnica',    d:'La base de toda técnica pianística: espalda recta, hombros relajados, muñecas al nivel del teclado, dedos curvados como sosteniendo una naranja. Previene lesiones desde el inicio.'},
+  {t:'Progresión armónica', cat:'teoria', d:'Secuencia de acordes que crean movimiento armónico. Las más comunes: <b>I-IV-V-I</b> (blues, rock), <b>I-V-VI-IV</b> (pop), <b>II-V-I</b> (jazz). Son narrativas emocionales musicales.'},
+  {t:'Redonda',      cat:'ritmo',      d:'Figura rítmica que vale <b>4 tiempos</b> (dura todo un compás de 4/4). Es la nota de mayor duración básica. Se dibuja como un óvalo vacío sin palito.'},
+  {t:'Ritmo',        cat:'ritmo',      d:'La organización del tiempo en la música: cuándo suenan las notas y por cuánto tiempo. Es la mitad de la música junto con la melodía/armonía. Reside neurológicamente en el cerebelo.'},
+  {t:'Semicorchea',  cat:'ritmo',      d:'Figura rítmica que vale <b>¼ de tiempo</b>. En 4/4 caben 16 semicorcheas por compás. Se dibuja como una corchea con dos banderas/correas en el palito.'},
+  {t:'Semitono',     cat:'teoria',     d:'La distancia más pequeña entre dos teclas consecutivas (blanca o negra) del piano. Entre Do y Do# hay 1 semitono. Entre Mi y Fa también hay 1 semitono (sin tecla negra entre ellas).'},
+  {t:'Sostenido (#)', cat:'teoria',    d:'Símbolo que sube una nota un semitono. Do# es la tecla negra inmediatamente a la derecha del Do. Puede llamarse también Re♭ (el mismo sonido, diferente nombre).'},
+  {t:'Staccato',     cat:'expresion',  d:'Articulación en que las notas se tocan cortas y separadas, con breve silencio entre ellas. Se indica con un punto sobre la nota. Produce un efecto de "gotas" o rebotes.'},
+  {t:'Subdominante', cat:'teoria',     d:'El 4° grado de la escala (Fa en Do Mayor). Su acorde aporta movimiento de "alejamiento" de la tónica. La progresión I-IV es el paso armónico más frecuente en la música popular.'},
+  {t:'Tempo',        cat:'ritmo',      d:'La velocidad de la música, medida en BPM. Indicaciones comunes: <b>Largo</b> (~50), <b>Andante</b> (~76), <b>Moderato</b> (~100), <b>Allegro</b> (~132), <b>Presto</b> (~180).'},
+  {t:'Teclas negras', cat:'teoria',    d:'Las 36 teclas más cortas y elevadas del piano. Aparecen en grupos de <b>2 y 3</b> que se alternan a lo largo de todo el teclado. Tocan los semitonos (sostenidos/bemoles).'},
+  {t:'Teclas blancas', cat:'teoria',   d:'Las 52 teclas principales del piano, que tocan las 7 notas naturales (Do, Re, Mi, Fa, Sol, La, Si). El patrón de teclas negras es la brújula para orientarse entre ellas.'},
+  {t:'Tercera mayor', cat:'teoria',    d:'Intervalo de <b>4 semitonos</b>. Es el intervalo que define un acorde mayor. Do-Mi es una tercera mayor. Este intervalo tiene un sonido brillante y estable.'},
+  {t:'Tercera menor', cat:'teoria',    d:'Intervalo de <b>3 semitonos</b>. Es el intervalo que define un acorde menor. Do-Mi♭ es una tercera menor. Tiene un sonido más íntimo o melancólico que la tercera mayor.'},
+  {t:'Tiempo (pulso)', cat:'ritmo',    d:'La unidad básica del ritmo: el "latido" constante de la música. El número superior del compás indica cuántos tiempos hay por compás. Caminar a paso regular = 1 tiempo por paso.'},
+  {t:'Tonalidad',    cat:'teoria',     d:'El "centro gravitacional" de una pieza: la nota y escala alrededor de las cuales orbita toda la música. "Do Mayor" usa la escala de Do Mayor como referencia. Hay 12 tonalidades mayores y 12 menores.'},
+  {t:'Tónica',       cat:'teoria',     d:'El 1° grado de la escala: la nota "hogar" de la tonalidad. En Do Mayor, la tónica es Do. Toda la música en esa tonalidad gravita hacia ella como punto de reposo y resolución.'},
+  {t:'Tono',         cat:'teoria',     d:'Intervalo de <b>2 semitonos</b> (una segunda mayor). Entre Do y Re hay 1 tono. La fórmula T-T-S de la escala mayor usa tonos y semitonos para definir las distancias entre notas.'},
+  {t:'Transportar',  cat:'tecnica',    d:'Tocar la misma pieza o progresión en una tonalidad diferente. Si sabes I-IV-V en Do, lo mismo en Sol es Sol-Do-Re. Los números romanos permiten transportar sin memorizar nuevas notas.'},
+  {t:'Tríada',       cat:'teoria',     d:'Acorde de <b>3 notas</b>: tónica, tercera y quinta. Es el bloque constructivo básico de la armonía. Do Mayor = Do+Mi+Sol. La menor = La+Do+Mi. Hay 4 tipos: mayor, menor, disminuida, aumentada.'},
+  {t:'Quinta justa', cat:'teoria',     d:'Intervalo de <b>7 semitonos</b>. Es el intervalo entre la tónica y el 5° grado de la escala. Do-Sol es una quinta justa. Es el intervalo más consonante después de la octava.'},
+];
+GLOSARIO.sort(function(a,b){return a.t.localeCompare(b.t,'es',{sensitivity:'base'});});
+
+var _glos = {open:false, filter:''};
+function toggleGlos() {
+  _glos.open = !_glos.open;
+  document.getElementById('glos-float').classList.toggle('glos-open', _glos.open);
+  if (_glos.open) { document.getElementById('glos-q').value=''; _glos.filter=''; glosRender(); setTimeout(function(){document.getElementById('glos-q').focus();},80); }
+}
+function glosSearch(v) { _glos.filter = v.toLowerCase(); glosRender(); }
+function glosToggleItem(idx) {
+  var items = document.querySelectorAll('.glos-item');
+  items.forEach(function(el,i){ if(i!==idx) el.classList.remove('open'); });
+  if(items[idx]) items[idx].classList.toggle('open');
+}
+function glosRender() {
+  var list = document.getElementById('glos-list');
+  var filtered = GLOSARIO.filter(function(g){ return !_glos.filter || g.t.toLowerCase().indexOf(_glos.filter)!==-1 || g.d.toLowerCase().indexOf(_glos.filter)!==-1; });
+  if (!filtered.length) { list.innerHTML='<div class="glos-empty">No se encontraron términos</div>'; return; }
+  list.innerHTML = filtered.map(function(g,i){
+    var tag = '<span class="glos-tag '+g.cat+'">'+g.cat+'</span>';
+    return '<div class="glos-item" onclick="glosToggleItem('+i+')">'
+      +'<div class="glos-term-row"><span class="glos-term">'+g.t+'</span>'+tag+'<span class="glos-arrow">▶</span></div>'
+      +'<div class="glos-def">'+g.d+'</div>'
+      +'</div>';
+  }).join('');
+}
 
 // ═══════════════════════════════════════════
 // METRONOME
