@@ -1268,8 +1268,6 @@ LESSONS['l3-3'] = function() {
   insight('🥁', '<b>El pulso vs. el ritmo:</b> El pulso es el latido constante de la música (lo que marca el metrónomo). El ritmo es el patrón de duraciones de las notas que se superpone sobre ese pulso. Puedes tener el mismo pulso pero ritmos completamente diferentes. El metrónomo marca el pulso; tú pones el ritmo.') +
   callout('<b>El punto de aumento:</b> Cuando una nota tiene un pequeño punto a su derecha, su duración se multiplica por 1.5. Una negra con punto dura 1.5 tiempos (una negra + una corchea). Una blanca con punto dura 3 tiempos. Este detalle aparece todo el tiempo en música, especialmente en ritmos de vals (3/4) y baladas.') +
   magicBox('Ejercicio de palmas', 'Pon el metrónomo en 60 BPM. Aplaude en cada tiempo (negras). Luego aplaude dos veces por tiempo (corcheas). Luego alterna: dos tiempos aplaudiendo negras, dos tiempos aplaudiendo corcheas. Este ejercicio entrena tu sentido del ritmo antes de llegar al teclado.') +
-  sectionHeader('Actividades') +
-  makeActivitySheetRitmo() +
   completeBtn();
 };
 
@@ -2100,6 +2098,10 @@ function renderExercisesBlock(lid) {
   var exs = EX[lid];
   if (!exs || !exs.length) return '';
   var html = '<div class="section-header" style="margin-top:40px"><h2>✦ Actividades</h2><div class="line"></div></div>';
+  if (lid === 'l3-3') {
+    html += makeActivitySheetRitmo();
+    html += '<div class="section-header" style="margin-top:32px"><h2>Preguntas de comprensión</h2><div class="line"></div></div>';
+  }
   html += '<div id="ex-wrap-' + lid + '" data-total="' + exs.length + '">';
   html += '<div class="ex-counter-wrap"><span id="exc-' + lid + '" class="ex-counter">0 correctas · 0 de ' + exs.length + ' respondidas</span></div>';
   exs.forEach(function(ex, i) {
