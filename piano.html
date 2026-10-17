@@ -33,6 +33,13 @@
 }
 html { font-size: 18px; }
 *{box-sizing:border-box;margin:0;padding:0}
+@keyframes bf-drift{
+  0%{transform:translateY(0) translateX(0) rotate(-8deg) scale(1)}
+  33%{transform:translateY(-14px) translateX(6px) rotate(4deg) scale(1.06)}
+  66%{transform:translateY(-8px) translateX(-5px) rotate(-3deg) scale(0.97)}
+  100%{transform:translateY(-20px) translateX(3px) rotate(7deg) scale(1.03)}
+}
+.bf{position:fixed;pointer-events:none;user-select:none;z-index:0;animation:bf-drift var(--d,8s) var(--delay,0s) ease-in-out infinite alternate;}
 body{
   background:#070010;
   color:var(--text);
@@ -94,7 +101,8 @@ body::before{
   background:linear-gradient(90deg,transparent,rgba(209,138,245,.7),transparent);
 }
 .sb-logo h1{
-  font-size:1.28rem;font-weight:800;letter-spacing:.5px;
+  font-size:1.1rem;font-weight:800;letter-spacing:.3px;
+  white-space:normal;line-height:1.3;
   background:linear-gradient(135deg,#fff,var(--accent));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
@@ -528,6 +536,24 @@ body::before{
   </button>
 </div>
 
+<!-- BUTTERFLIES -->
+<div aria-hidden="true" id="bf-layer">
+  <!-- sidebar zone -->
+  <span class="bf" style="top:10%;left:2%;font-size:1.5rem;opacity:.14;--d:8s;--delay:0s">🦋</span>
+  <span class="bf" style="top:38%;left:4%;font-size:1.0rem;opacity:.11;--d:11s;--delay:2.5s">🦋</span>
+  <span class="bf" style="top:68%;left:1%;font-size:1.3rem;opacity:.12;--d:7s;--delay:1.2s">🦋</span>
+  <span class="bf" style="top:85%;left:6%;font-size:0.9rem;opacity:.10;--d:9s;--delay:4s">🦋</span>
+  <!-- main content zone -->
+  <span class="bf" style="top:7%;left:28%;font-size:1.4rem;opacity:.09;--d:10s;--delay:0.8s">🦋</span>
+  <span class="bf" style="top:18%;left:72%;font-size:1.7rem;opacity:.08;--d:13s;--delay:3s">🦋</span>
+  <span class="bf" style="top:32%;left:48%;font-size:1.1rem;opacity:.10;--d:8s;--delay:5.5s">🦋</span>
+  <span class="bf" style="top:50%;left:88%;font-size:1.3rem;opacity:.09;--d:9s;--delay:1s">🦋</span>
+  <span class="bf" style="top:62%;left:60%;font-size:1.5rem;opacity:.08;--d:12s;--delay:2s">🦋</span>
+  <span class="bf" style="top:78%;left:38%;font-size:1.0rem;opacity:.10;--d:7s;--delay:3.5s">🦋</span>
+  <span class="bf" style="top:88%;left:78%;font-size:1.2rem;opacity:.09;--d:10s;--delay:0.3s">🦋</span>
+  <span class="bf" style="top:22%;left:93%;font-size:1.1rem;opacity:.08;--d:11s;--delay:6s">🦋</span>
+  <span class="bf" style="top:44%;left:22%;font-size:1.6rem;opacity:.07;--d:14s;--delay:4.5s">🦋</span>
+</div>
 <!-- SIDEBAR -->
 <nav id="sidebar">
   <div class="sb-logo">
@@ -1533,7 +1559,7 @@ LESSONS['l1-1'] = function() {
   sectionHeader('El teclado completo') +
   pianoHtml({startMidi:21, endMidi:108, WKW:17, height:110, label:'El piano completo: 88 teclas, de La0 a Do8'}) +
   insight('✨', '<b>El secreto del patron:</b> Las teclas negras aparecen en grupos de 2 y de 3, alternandose a lo largo de todo el teclado. Este patron se repite exactamente <b>7 veces y media</b>. Una vez que lo veas, nunca lo olvidaras: es tu brujula dentro del piano.') +
-  callout('<b>Dato curioso:</b> El piano fue inventado alrededor del ano 1700 por Bartolomeo Cristofori en Italia. Su nombre original era <em>gravicembalo col piano e forte</em>: "instrumento de teclado con suave y fuerte". De ahi viene el apodo "piano": porque, por primera vez, el teclado respondia a la fuerza con que presionaras las teclas.') +
+  callout('<b>Lo que hace unico al piano:</b> A diferencia de una flauta o un violin, el piano te deja escuchar una nota y tocar la siguiente al mismo tiempo. Esto significa que puedes hacer <em>melodia y acompanamiento con un solo instrumento</em>. Cada mano tiene su propio rol: la derecha canta, la izquierda sostiene. Desde la primera leccion ya estan trabajando juntas, aunque todavia no lo sientas.') +
   magicBox('Ejercicio de exploracion', 'Pon las manos sobre el teclado (real o mental). Cierra los ojos. Busca con el dedo un grupo de 2 teclas negras. Ahora un grupo de 3. Repitelo hacia la derecha y hacia la izquierda. Cuando puedas encontrar esos grupos sin mirar, habras dado tu primer paso real como pianista.') +
   makeExercise('ex1-1', '¿Cuantas teclas tiene un piano estandar?', ['72 teclas', '88 teclas', '100 teclas', '76 teclas'], 1) +
   completeBtn();
