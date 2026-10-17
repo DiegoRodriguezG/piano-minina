@@ -1148,6 +1148,374 @@ function makeActivitySheetAcordes() {
     + '</div>';
 }
 
+// ── Global helpers shared by all activity sheets ──
+function _row(num, nc, lbl, ans, bc, unit) {
+  return '<div class="act-prob"><span class="act-pnum" style="color:' + nc + '">' + num + '.</span>'
+    + '<span style="font-size:.88rem;font-weight:600;color:#1e1b4b;flex:1;padding:0 5px">' + lbl + '</span>'
+    + '<span class="act-eq">=</span>' + _ai(ans, bc)
+    + '<span class="act-unit">' + (unit || '') + '</span></div>';
+}
+function _nrow(num, nc, a, b, ans, bc) {
+  var pill = 'display:inline-block;font-size:.9rem;font-weight:700;color:#1e1b4b;background:#fff;border:2px solid ' + nc + ';border-radius:7px;padding:2px 9px;margin:0 2px';
+  return '<div class="act-prob"><span class="act-pnum" style="color:' + nc + '">' + num + '.</span>'
+    + '<span style="' + pill + '">' + a + '</span><span class="act-oper">→</span>'
+    + '<span style="' + pill + '">' + b + '</span>'
+    + '<span class="act-eq">=</span>' + _ai(ans, bc)
+    + '<span class="act-unit">st</span></div>';
+}
+function _sheet(sub, body) {
+  return '<div class="act-sheet"><div class="act-top"><div class="act-top-title">'
+    + '<span style="font-size:1.2rem">✦</span> Actividades <span style="font-size:1.2rem">✦</span></div>'
+    + '<div class="act-top-sub">' + sub + '</div></div><div class="act-body">' + body + '</div></div>';
+}
+function _sec(cls, title, desc, items) {
+  return '<div class="act-sec ' + cls + '"><div class="act-sec-title">' + title + '</div>'
+    + '<div class="act-sec-desc">' + desc + '</div>' + items + '</div>';
+}
+function _secE(title, desc, items) {
+  return '<div class="act-sec-full e-orange"><div class="act-sec-title">' + title + '</div>'
+    + '<div class="act-sec-desc">' + desc + '</div><div class="act-e-row">' + items + '</div></div>';
+}
+function _memo(txt) {
+  return '<div class="act-recuerda"><span style="font-size:1.4rem;flex-shrink:0">⭐</span><span>' + txt + '</span></div>';
+}
+
+// l2-1: Do Central
+function makeActivitySheetDoCentral() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. Semitonos desde Do4','¿Cuántos semitonos hay entre Do Central (C4) y cada nota?',
+    _nrow(1,ga,'Do4','Re4',2,ga)+_nrow(2,ga,'Do4','Mi4',4,ga)+_nrow(3,ga,'Do4','Fa4',5,ga)
+    +_nrow(4,ga,'Do4','Sol4',7,ga)+_nrow(5,ga,'Do4','Do5',12,ga));
+  var B=_sec('b-pink','B. Octavas y cantidades','Completa con el número correcto.',
+    _row(1,pa,'Octava del Do Central (Do?)',4,pa,'')
+    +_row(2,pa,'Do1 → Do4 = ? octavas completas',3,pa,'octavas')
+    +_row(3,pa,'Do4 → Do8 = ? octavas completas',4,pa,'octavas')
+    +_row(4,pa,'Total de Do en el piano de 88 teclas',8,pa,'Do'));
+  var C=_sec('c-blue','C. Más distancias desde Do4','Semitonos adicionales.',
+    _nrow(1,ba,'Do4','La4',9,ba)+_nrow(2,ba,'Do4','Si4',11,ba)+_nrow(3,ba,'Si3','Do4',1,ba));
+  var E=_secE('D. Repaso — Semitonos desde Do4','¿A cuántos semitonos de Do4 está cada nota?',
+    _eItemU('Re4','Do4→Re4',2,oa,'st')+_eItemU('Mi4','Do4→Mi4',4,oa,'st')
+    +_eItemU('Sol4','Do4→Sol4',7,oa,'st')+_eItemU('La4','Do4→La4',9,oa,'st')
+    +_eItemU('Do5','Do4→Do5',12,oa,'st'));
+  return _sheet('El Do Central: Semitonos, Octavas y Posición',
+    A+B+C+E+_memo('<b>Recuerda:</b> Do Central = C4 (4ª octava). 1 octava = <b>12 semitonos</b> siempre. El piano tiene <b>8 Do</b> (de Do1 a Do8). Contando semitonos desde Do4 calculas la distancia a cualquier nota.'));
+}
+
+// l2-3: Pentacordio
+function makeActivitySheetPentacordio() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. Dedos — Mano Derecha (MD)','Pentacordio MD: dedo1=Do4, dedo2=Re4, dedo3=Mi4, dedo4=Fa4, dedo5=Sol4.',
+    _row(1,ga,'Do4 = dedo ? (MD)',1,ga,'')+_row(2,ga,'Re4 = dedo ? (MD)',2,ga,'')
+    +_row(3,ga,'Mi4 = dedo ? (MD)',3,ga,'')+_row(4,ga,'Fa4 = dedo ? (MD)',4,ga,'')
+    +_row(5,ga,'Sol4 = dedo ? (MD)',5,ga,''));
+  var B=_sec('b-pink','B. Dedos — Mano Izquierda (MI)','Pentacordio MI: dedo5=Do4, dedo4=Re4, dedo3=Mi4, dedo2=Fa4, dedo1=Sol4.',
+    _row(1,pa,'Do4 = dedo ? (MI)',5,pa,'')+_row(2,pa,'Re4 = dedo ? (MI)',4,pa,'')
+    +_row(3,pa,'Mi4 = dedo ? (MI)',3,pa,'')+_row(4,pa,'Fa4 = dedo ? (MI)',2,pa,'')
+    +_row(5,pa,'Sol4 = dedo ? (MI)',1,pa,''));
+  var C=_sec('c-blue','C. Semitonos del pentacordio','Distancia entre notas del pentacordio de Do Mayor.',
+    _nrow(1,ba,'Do4','Mi4',4,ba)+_nrow(2,ba,'Do4','Fa4',5,ba)+_nrow(3,ba,'Do4','Sol4',7,ba));
+  var E=_secE('D. Resumen del pentacordio','Datos clave.',
+    _eItemU('Notas','Total de notas',5,oa,'')+_eItemU('Dedos','Total de dedos',5,oa,'')
+    +_eItemU('D→G','Do4→Sol4 (st)',7,oa,'st'));
+  return _sheet('Pentacordio de Do Mayor: Digitación y Estructura',
+    A+B+C+E+_memo('<b>Recuerda:</b> MD: pulgar(1)=Do4 → meñique(5)=Sol4. MI: meñique(5)=Do4 → pulgar(1)=Sol4. Los pulgares siempre apuntan hacia el <b>centro</b>. El pentacordio tiene 5 notas y usa los 5 dedos sin cruce.'));
+}
+
+// l3-1: Clave de Sol
+function makeActivitySheetClaveSol() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. Notas en LÍNEAS','¿En qué línea (1–5) está cada nota? (1=abajo, 5=arriba)',
+    _row(1,ga,'Mi4 = línea ?',1,ga,'')+_row(2,ga,'Sol4 = línea ?',2,ga,'')
+    +_row(3,ga,'Si4 = línea ?',3,ga,'')+_row(4,ga,'Re5 = línea ?',4,ga,'')
+    +_row(5,ga,'Fa5 = línea ?',5,ga,''));
+  var B=_sec('b-pink','B. Notas en ESPACIOS','¿En qué espacio (1–4) está cada nota? (1=abajo, 4=arriba)',
+    _row(1,pa,'Fa4 = espacio ?',1,pa,'')+_row(2,pa,'La4 = espacio ?',2,pa,'')
+    +_row(3,pa,'Do5 = espacio ?',3,pa,'')+_row(4,pa,'Mi5 = espacio ?',4,pa,''));
+  var C=_sec('c-blue','C. Datos del pentagrama','Completa.',
+    _row(1,ba,'Líneas del pentagrama',5,ba,'líneas')+_row(2,ba,'Espacios del pentagrama',4,ba,'espacios')
+    +_row(3,ba,'Do Central: línea adicional ? debajo del pentagrama treble',1,ba,''));
+  var E=_secE('D. Línea de cada nota','Escribe el número de línea donde está cada nota (clave de Sol).',
+    _eItemU('Mi4','línea 1',1,oa,'')+_eItemU('Sol4','línea 2',2,oa,'')
+    +_eItemU('Si4','línea 3',3,oa,'')+_eItemU('Re5','línea 4',4,oa,'')
+    +_eItemU('Fa5','línea 5',5,oa,''));
+  return _sheet('Clave de Sol (Treble): Líneas, Espacios y Posición de Notas',
+    A+B+C+E+_memo('<b>Recuerda:</b> Líneas (abajo→arriba): <b>Mi-Sol-Si-Re-Fa</b> ("Mi Gato Sube Rápido al Faro"). Espacios: <b>Fa-La-Do-Mi</b>. Do Central está en la 1ª línea adicional <b>debajo</b> del pentagrama.'));
+}
+
+// l3-2: Clave de Fa
+function makeActivitySheetClaveFa() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. Notas en LÍNEAS','¿En qué línea (1–5) está cada nota en clave de Fa? (1=abajo)',
+    _row(1,ga,'Sol2 = línea ?',1,ga,'')+_row(2,ga,'Si2 = línea ?',2,ga,'')
+    +_row(3,ga,'Re3 = línea ?',3,ga,'')+_row(4,ga,'Fa3 = línea ?',4,ga,'')
+    +_row(5,ga,'La3 = línea ?',5,ga,''));
+  var B=_sec('b-pink','B. Notas en ESPACIOS','¿En qué espacio (1–4) está cada nota?',
+    _row(1,pa,'La2 = espacio ?',1,pa,'')+_row(2,pa,'Do3 = espacio ?',2,pa,'')
+    +_row(3,pa,'Mi3 = espacio ?',3,pa,'')+_row(4,pa,'Sol3 = espacio ?',4,pa,''));
+  var C=_sec('c-blue','C. Referencia de la clave de Fa','La clave de Fa indica la posición de la nota Fa3.',
+    _row(1,ba,'La nota Fa3 está en la línea ?',4,ba,'')
+    +_row(2,ba,'Do Central: 1ª línea adicional ? del pentagrama bass',1,ba,'(encima)')
+    +_row(3,ba,'Clave de Sol y de Fa: líneas del pentagrama en total',5,ba,'líneas'));
+  var E=_secE('D. Línea de cada nota','Escribe el número de línea en clave de Fa.',
+    _eItemU('Sol2','línea 1',1,oa,'')+_eItemU('Si2','línea 2',2,oa,'')
+    +_eItemU('Re3','línea 3',3,oa,'')+_eItemU('Fa3','línea 4',4,oa,'')
+    +_eItemU('La3','línea 5',5,oa,''));
+  return _sheet('Clave de Fa (Bass): Líneas, Espacios y Posición de Notas',
+    A+B+C+E+_memo('<b>Recuerda:</b> Líneas (abajo→arriba): <b>Sol-Si-Re-Fa-La</b>. Espacios: <b>La-Do-Mi-Sol</b>. Do Central está en la 1ª línea adicional <b>encima</b> del pentagrama de clave de Fa (al revés que en clave de Sol).'));
+}
+
+// l4-1: Oda a la Alegría
+function makeActivitySheetOda() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. Digitación MD — Oda a la Alegría','Pentacordio MD (d1=Do4...d5=Sol4). ¿Qué dedo toca cada nota?',
+    _row(1,ga,'Mi4 = dedo ? (MD)',3,ga,'')+_row(2,ga,'Fa4 = dedo ? (MD)',4,ga,'')
+    +_row(3,ga,'Sol4 = dedo ? (MD)',5,ga,'')+_row(4,ga,'Re4 = dedo ? (MD)',2,ga,'')
+    +_row(5,ga,'Do4 = dedo ? (MD)',1,ga,''));
+  var B=_sec('b-pink','B. Duración de notas','A 60 BPM, 1 negra = 1 segundo.',
+    _row(1,pa,'1 negra a 60 BPM = ? segundo',1,pa,'seg')
+    +_row(2,pa,'1 blanca a 60 BPM = ? segundos',2,pa,'seg')
+    +_row(3,pa,'1 redonda a 60 BPM = ? segundos',4,pa,'seg')
+    +_row(4,pa,'La última nota Re4 de la primera frase dura ? tiempos',2,pa,'tiempos'));
+  var C=_sec('c-blue','C. La primera frase','Datos de "Mi-Mi-Fa-Sol-Sol-Fa-Mi-Re".',
+    _row(1,ba,'Total de notas en la primera frase',8,ba,'notas')
+    +_row(2,ba,'Notas DISTINTAS (Mi, Fa, Sol, Re)',4,ba,'distintas')
+    +_row(3,ba,'Un compás de 4/4: cuántas negras por compás',4,ba,'negras'));
+  var E=_secE('D. Repaso — Dedo MD por nota','¿Qué dedo de la MD toca cada nota del pentacordio?',
+    _eItemU('Do4','dedo 1',1,oa,'')+_eItemU('Re4','dedo 2',2,oa,'')
+    +_eItemU('Mi4','dedo 3',3,oa,'')+_eItemU('Fa4','dedo 4',4,oa,'')
+    +_eItemU('Sol4','dedo 5',5,oa,''));
+  return _sheet('Oda a la Alegría: Digitación, Ritmo y Primera Frase',
+    A+B+C+E+_memo('<b>Recuerda:</b> La Oda comienza en <b>Mi4 (dedo 3)</b>. La primera frase usa 4 notas distintas: Mi, Fa, Sol, Re. La última nota Re4 dura <b>2 tiempos</b> (blanca) creando el efecto de reposo. A 60 BPM: negra=1s, blanca=2s, redonda=4s.'));
+}
+
+// l4-2: La Mano Izquierda
+function makeActivitySheetManoIzq() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. Dedos — Mano Izquierda (MI)','Pentacordio MI: dedo5=Do4, dedo4=Re4, dedo3=Mi4, dedo2=Fa4, dedo1=Sol4.',
+    _row(1,ga,'Do4 = dedo ? (MI)',5,ga,'')+_row(2,ga,'Re4 = dedo ? (MI)',4,ga,'')
+    +_row(3,ga,'Mi4 = dedo ? (MI)',3,ga,'')+_row(4,ga,'Fa4 = dedo ? (MI)',2,ga,'')
+    +_row(5,ga,'Sol4 = dedo ? (MI)',1,ga,''));
+  var B=_sec('b-pink','B. Coordinación MD / MI','Por cada nota de MI, ¿cuántas notas toca MD?',
+    _row(1,pa,'MD=corcheas, MI=negras → notas MD por nota MI',2,pa,'notas')
+    +_row(2,pa,'MD=semicorcheas, MI=negras → notas MD por nota MI',4,pa,'notas')
+    +_row(3,pa,'MD=corcheas, MI=blancas → notas MD por nota MI',4,pa,'notas')
+    +_row(4,pa,'MD=corcheas, MI=redondas → notas MD por nota MI',8,pa,'notas'));
+  var C=_sec('c-blue','C. Volumen relativo','La MI debe sonar más suave que la MD.',
+    _row(1,ba,'MD al 100%: MI toca al ? % (aprox)',70,ba,'%')
+    +_row(2,ba,'Número de dedos en el pentacordio MI',5,ba,'dedos')
+    +_row(3,ba,'1 negra MI = cuántas corcheas MD',2,ba,'corcheas'));
+  var E=_secE('D. Repaso — Dedo MI por nota','¿Qué dedo de la MI toca cada nota del pentacordio?',
+    _eItemU('Do4','dedo 5',5,oa,'')+_eItemU('Re4','dedo 4',4,oa,'')
+    +_eItemU('Mi4','dedo 3',3,oa,'')+_eItemU('Fa4','dedo 2',2,oa,'')
+    +_eItemU('Sol4','dedo 1',1,oa,''));
+  return _sheet('La Mano Izquierda: Digitación, Coordinación y Volumen',
+    A+B+C+E+_memo('<b>Recuerda:</b> En la MI: <b>meñique(5)=grave, pulgar(1)=agudo</b>. La MI toca más suave (~70%) para que la melodía de la MD destaque. Practica la MI sola hasta automatizarla antes de unir las manos.'));
+}
+
+// l4-3: Ambas Manos
+function makeActivitySheetAmbasManos() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. Relaciones rítmicas MD / MI','Por cada nota de MI, ¿cuántas notas toca MD?',
+    _row(1,ga,'MD=corcheas, MI=negras',2,ga,'notas MD')
+    +_row(2,ga,'MD=semicorcheas, MI=negras',4,ga,'notas MD')
+    +_row(3,ga,'MD=corcheas, MI=blancas',4,ga,'notas MD')
+    +_row(4,ga,'MD=corcheas, MI=redondas',8,ga,'notas MD')
+    +_row(5,ga,'MD=negras, MI=negras (unísono)',1,ga,'notas MD'));
+  var B=_sec('b-pink','B. Tempo de práctica','Cálculos con BPM y duraciones.',
+    _row(1,pa,'Cada mano OK a 80 BPM → unirlas a ? BPM (aprox. mitad)',40,pa,'BPM')
+    +_row(2,pa,'A 60 BPM: 1 negra = ? segundo',1,pa,'seg')
+    +_row(3,pa,'A 120 BPM: 1 negra = ? segundos',0.5,pa,'seg')
+    +_row(4,pa,'A 60 BPM: 1 corchea = ? segundos',0.5,pa,'seg'));
+  var C=_sec('c-blue','C. Método de práctica','Datos clave del método.',
+    _row(1,ba,'Manos que debes practicar por separado primero',2,ba,'manos')
+    +_row(2,ba,'A 60 BPM: cuántas corcheas caben en 1 negra',2,ba,'corcheas')
+    +_row(3,ba,'A 60 BPM: cuántas semicorcheas caben en 1 negra',4,ba,'semicorcheas'));
+  return _sheet('Manos Juntas: Coordinación Bimanual y Método de Práctica',
+    A+B+C+_memo('<b>Recuerda:</b> Al unir las manos, practica a la <b>mitad del tempo</b> (80 BPM separado → 40 BPM juntas). Sube el tempo solo cuando sale perfecto varias veces seguidas. Relación rítmica: por cada negra de MI, MD puede tocar 2 corcheas o 4 semicorcheas.'));
+}
+
+// l5-2: Acordes Menores
+function makeActivitySheetMenores() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. La menor — La-Do-Mi','Semitonos de cada intervalo.',
+    _row(1,ga,'La → Do (Raíz→3ª)',3,ga,'st')+_row(2,ga,'Do → Mi (3ª→5ª)',4,ga,'st')+_row(3,ga,'La → Mi (Raíz→5ª)',7,ga,'st'));
+  var B=_sec('b-pink','B. Re menor — Re-Fa-La','Aplica la fórmula 3+4 desde Re.',
+    _row(1,pa,'Re → Fa (Raíz→3ª)',3,pa,'st')+_row(2,pa,'Fa → La (3ª→5ª)',4,pa,'st')+_row(3,pa,'Re → La (Raíz→5ª)',7,pa,'st'));
+  var C=_sec('c-blue','C. Do menor — Do-Mi♭-Sol','Aplica la fórmula 3+4 desde Do.',
+    _row(1,ba,'Do → Mi♭ (Raíz→3ª)',3,ba,'st')+_row(2,ba,'Mi♭ → Sol (3ª→5ª)',4,ba,'st')+_row(3,ba,'Do → Sol (Raíz→5ª)',7,ba,'st'));
+  var D=_sec('d-purple','D. Mayor vs Menor','Compara las dos fórmulas.',
+    _row(1,va,'Acorde MAYOR: Raíz→3ª',4,va,'st')+_row(2,va,'Acorde MENOR: Raíz→3ª',3,va,'st')
+    +_row(3,va,'Diferencia mayor vs menor (semitonos)',1,va,'st')+_row(4,va,'Raíz→5ª en AMBOS tipos',7,va,'st'));
+  var E=_secE('E. Fórmula universal del acorde menor','Todo acorde menor: 3+4 semitonos.',
+    _eItemU('Raíz→3ª','3ª Menor',3,oa,'st')+_eItemU('3ª→5ª','3ª Mayor',4,oa,'st')+_eItemU('Raíz→5ª','5ª Justa',7,oa,'st'));
+  return _sheet('Tríadas Menores: Fórmula 3+4 Semitonos',
+    A+B+C+D+E+_memo('<b>Recuerda:</b> Acorde menor = <b>3+4 semitonos</b> (al revés que mayor: 4+3). La 5ª justa es siempre <b>7 st</b>. Para convertir mayor en menor: baja la 3ª un semitono (Mi→Mi♭).'));
+}
+
+// l5-3: Progresiones
+function makeActivitySheetProgresiones() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. Semitonos — Grados de Do Mayor','¿Cuántos semitonos hay de Do hasta cada grado?',
+    _nrow(1,ga,'Do','Re (II)',2,ga)+_nrow(2,ga,'Do','Mi (III)',4,ga)+_nrow(3,ga,'Do','Fa (IV)',5,ga)
+    +_nrow(4,ga,'Do','Sol (V)',7,ga)+_nrow(5,ga,'Do','La (VI)',9,ga));
+  var B=_sec('b-pink','B. Grado de cada nota en Do Mayor','¿Qué número de grado tiene cada nota?',
+    _row(1,pa,'Do = grado ?',1,pa,'')+_row(2,pa,'Fa = grado ?',4,pa,'')
+    +_row(3,pa,'Sol = grado ?',5,pa,'')+_row(4,pa,'La = grado ?',6,pa,'')
+    +_row(5,pa,'Si = grado ?',7,pa,''));
+  var C=_sec('c-blue','C. Datos de las progresiones','Cuántos acordes distintos tiene cada progresión.',
+    _row(1,ba,'I-V-vi-IV: acordes DISTINTOS',4,ba,'acordes')
+    +_row(2,ba,'I-IV-V-I: acordes distintos (sin repetir I)',3,ba,'acordes')
+    +_row(3,ba,'Grados de la escala mayor',7,ba,'grados')
+    +_row(4,ba,'I-IV-V-I: cuántas veces aparece el acorde I',2,ba,'veces'));
+  var E=_secE('D. Semitonos por grado','Distancia en semitonos de Do hasta cada grado principal.',
+    _eItemU('IV','Do→Fa',5,oa,'st')+_eItemU('V','Do→Sol',7,oa,'st')
+    +_eItemU('VI','Do→La',9,oa,'st')+_eItemU('VII','Do→Si',11,oa,'st'));
+  return _sheet('Progresiones de Acordes: Grados y Estructura en Do Mayor',
+    A+B+C+E+_memo('<b>Recuerda:</b> Grados principales: I=Do, IV=Fa(5st), V=Sol(7st), VI=La(9st). I-V-vi-IV tiene <b>4 acordes distintos</b> y es la progresión más usada en música popular. El V (dominante) tiene tensión que "quiere" resolver al I.'));
+}
+
+// l6-1: Dinámica
+function makeActivitySheetDinamica() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. Posición en la escala dinámica','1=más suave, 6=más fuerte. (pp-p-mp-mf-f-ff)',
+    _row(1,ga,'pp = posición ?',1,ga,'')+_row(2,ga,'p = posición ?',2,ga,'')
+    +_row(3,ga,'mp = posición ?',3,ga,'')+_row(4,ga,'mf = posición ?',4,ga,'')
+    +_row(5,ga,'f = posición ?',5,ga,'')+_row(6,ga,'ff = posición ?',6,ga,''));
+  var B=_sec('b-pink','B. Conteos de letras y dinámicas','Cuántas letras y cuántas dinámicas.',
+    _row(1,pa,'Dinámicas principales en notación estándar',6,pa,'dinámicas')
+    +_row(2,pa,'"pp" tiene cuántas letras "p"',2,pa,'p')
+    +_row(3,pa,'"ff" tiene cuántas letras "f"',2,pa,'f')
+    +_row(4,pa,'Dinámicas entre pp y ff SIN contar los extremos',4,pa,'dinámicas'));
+  var C=_sec('c-blue','C. Diferencias de nivel','¿Cuántos pasos hay entre dos dinámicas?',
+    _row(1,ba,'Pasos de pp a ff (contando ambos extremos)',6,ba,'pasos')
+    +_row(2,ba,'Pasos de p a ff (contando ambos extremos)',5,ba,'pasos')
+    +_row(3,ba,'Pasos de pp a f (contando ambos extremos)',5,ba,'pasos'));
+  var E=_secE('D. Posición de cada dinámica (1–6)','Escribe el número de posición (1=más suave, 6=más fuerte).',
+    _eItemU('pp','posición',1,oa,'')+_eItemU('mp','posición',3,oa,'')
+    +_eItemU('mf','posición',4,oa,'')+_eItemU('ff','posición',6,oa,''));
+  return _sheet('Dinámica Musical: Escala de Volumen y Símbolos',
+    A+B+C+E+_memo('<b>Recuerda:</b> Escala de 6 dinámicas: <b>pp-p-mp-mf-f-ff</b>. "p"=piano (suave), "f"=forte (fuerte), "m"=mezzo (medio). Crescendo (<) sube el volumen gradualmente; decrescendo (>) lo baja.'));
+}
+
+// l6-2: Articulación
+function makeActivitySheetArticulacion() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. Staccato — duración real (~50% del valor escrito)','Calcula cuántos tiempos suena la nota con staccato.',
+    _row(1,ga,'Negra staccato (valor=1 tiempo) dura ?',0.5,ga,'tiempos')
+    +_row(2,ga,'Blanca staccato (valor=2 tiempos) dura ?',1,ga,'tiempos')
+    +_row(3,ga,'Corchea staccato (valor=0.5 tiempos) dura ?',0.25,ga,'tiempos')
+    +_row(4,ga,'Redonda staccato (valor=4 tiempos) dura ?',2,ga,'tiempos'));
+  var B=_sec('b-pink','B. Legato — duración real (100% del valor escrito)','El legato no acorta la nota.',
+    _row(1,pa,'Negra legato (valor=1 tiempo) dura ?',1,pa,'tiempos')
+    +_row(2,pa,'Blanca legato (valor=2 tiempos) dura ?',2,pa,'tiempos')
+    +_row(3,pa,'Redonda legato (valor=4 tiempos) dura ?',4,pa,'tiempos')
+    +_row(4,pa,'Legato: % de silencio entre notas',0,pa,'%'));
+  var C=_sec('c-blue','C. Staccato vs Legato — diferencias','Diferencia de duración entre articulaciones.',
+    _row(1,ba,'Articulaciones básicas que se aprenden aquí',2,ba,'articulaciones')
+    +_row(2,ba,'Negra: staccato(0.5t) vs legato(1t) → diferencia',0.5,ba,'tiempos')
+    +_row(3,ba,'Blanca: staccato(1t) vs legato(2t) → diferencia',1,ba,'tiempos')
+    +_row(4,ba,'Staccato dura ? % del valor escrito',50,ba,'%'));
+  var E=_secE('D. Duración con staccato — Repaso','Escribe la duración real (tiempos) de cada nota con staccato.',
+    _eItemU('Negra','staccato: 50%',0.5,oa,'t')+_eItemU('Blanca','staccato: 50%',1,oa,'t')
+    +_eItemU('Redonda','staccato: 50%',2,oa,'t')+_eItemU('Corchea','staccato: 50%',0.25,oa,'t'));
+  return _sheet('Articulación: Staccato y Legato · Duraciones y Contraste',
+    A+B+C+E+_memo('<b>Recuerda:</b> Staccato (•) = <b>~50% de la duración</b> escrita (el resto es silencio). Legato = <b>100%</b> (notas conectadas, sin silencio). Staccato: enérgico y saltarín. Legato: fluido y cantado.'));
+}
+
+// l6-3: Escalas con Alteraciones
+function makeActivitySheetAlteraciones() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. Sostenidos (#) por escala mayor','¿Cuántos sostenidos tiene cada escala?',
+    _row(1,ga,'Sol Mayor',1,ga,'#')+_row(2,ga,'Re Mayor',2,ga,'#')
+    +_row(3,ga,'La Mayor',3,ga,'#')+_row(4,ga,'Mi Mayor',4,ga,'#')
+    +_row(5,ga,'Si Mayor',5,ga,'#'));
+  var B=_sec('b-pink','B. Bemoles (♭) por escala mayor','¿Cuántos bemoles tiene cada escala?',
+    _row(1,pa,'Fa Mayor',1,pa,'♭')+_row(2,pa,'Si♭ Mayor',2,pa,'♭')
+    +_row(3,pa,'Mi♭ Mayor',3,pa,'♭')+_row(4,pa,'La♭ Mayor',4,pa,'♭'));
+  var C=_sec('c-blue','C. La fórmula T-T-S-T-T-T-S','Análisis de la fórmula de escala mayor.',
+    _row(1,ba,'Tonos (T) en la fórmula',5,ba,'tonos')
+    +_row(2,ba,'Semitonos (S) en la fórmula',2,ba,'S')
+    +_row(3,ba,'En Sol Mayor: Mi → Fa# = ? st (debe ser tono)',2,ba,'st')
+    +_row(4,ba,'En Sol Mayor: Fa♮ desde Mi = ? st (solo semitono)',1,ba,'st'));
+  var E=_secE('D. Repaso — Sostenidos por escala','Escribe cuántos sostenidos (#) tiene cada escala mayor.',
+    _eItemU('Sol','Sol Mayor',1,oa,'#')+_eItemU('Re','Re Mayor',2,oa,'#')
+    +_eItemU('La','La Mayor',3,oa,'#')+_eItemU('Mi','Mi Mayor',4,oa,'#')
+    +_eItemU('Si','Si Mayor',5,oa,'#'));
+  return _sheet('Escalas Mayores con Alteraciones: Sostenidos y Bemoles',
+    A+B+C+E+_memo('<b>Recuerda:</b> Sostenidos (ciclo de quintas): Sol(1#), Re(2#), La(3#), Mi(4#)... Bemoles: Fa(1♭), Si♭(2♭), Mi♭(3♭)... La fórmula T-T-<b>S</b>-T-T-T-<b>S</b> exige el Fa# en Sol Mayor (7° grado).'));
+}
+
+// l7-1: Pentatónica
+function makeActivitySheetPentatonica() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. Semitonos entre notas vecinas','Pentatónica de Do Mayor: Do-Re-Mi-Sol-La-Do (sin Fa ni Si).',
+    _nrow(1,ga,'Do','Re',2,ga)+_nrow(2,ga,'Re','Mi',2,ga)+_nrow(3,ga,'Mi','Sol',3,ga)
+    +_nrow(4,ga,'Sol','La',2,ga)+_nrow(5,ga,'La','Do',3,ga));
+  var B=_sec('b-pink','B. Diferencia con la escala mayor','¿Qué se omite en la pentatónica de Do Mayor?',
+    _row(1,pa,'Grado omitido (Fa)',4,pa,'')
+    +_row(2,pa,'Grado omitido (Si)',7,pa,'')
+    +_row(3,pa,'Cuántas notas tiene la pentatónica',5,pa,'notas')
+    +_row(4,pa,'Semitonos naturales en la pentatónica de Do',0,pa,'st'));
+  var C=_sec('c-blue','C. Semitonos acumulados desde Do','Distancias totales en la pentatónica.',
+    _nrow(1,ba,'Do','Mi',4,ba)+_nrow(2,ba,'Do','Sol',7,ba)
+    +_nrow(3,ba,'Do','La',9,ba)+_nrow(4,ba,'Do','Do (8va)',12,ba));
+  var E=_secE('D. Salto en semitonos entre notas vecinas','Escribe los semitonos de cada intervalo de la pentatónica.',
+    _eItemU('Do','Do→Re',2,oa,'st')+_eItemU('Re','Re→Mi',2,oa,'st')
+    +_eItemU('Mi','Mi→Sol',3,oa,'st')+_eItemU('Sol','Sol→La',2,oa,'st')
+    +_eItemU('La','La→Do',3,oa,'st'));
+  return _sheet('Escala Pentatónica de Do Mayor: Intervalos y Estructura',
+    A+B+C+E+_memo('<b>Recuerda:</b> Pentatónica de Do = escala mayor SIN grados <b>4 (Fa)</b> y <b>7 (Si)</b>. Saltos: 2-2-<b>3</b>-2-<b>3</b>. Sin semitonos → "suena bien siempre". Las <b>5 teclas negras</b> del piano forman una pentatónica.'));
+}
+
+// l7-2: Escala Menor
+function makeActivitySheetMenorEscala() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. La menor natural — notas vecinas','La-Si-Do-Re-Mi-Fa-Sol-La. Semitonos entre notas consecutivas.',
+    _nrow(1,ga,'La','Si',2,ga)+_nrow(2,ga,'Si','Do',1,ga)+_nrow(3,ga,'Do','Re',2,ga)
+    +_nrow(4,ga,'Re','Mi',2,ga)+_nrow(5,ga,'Mi','Fa',1,ga)+_nrow(6,ga,'Fa','Sol',2,ga)+_nrow(7,ga,'Sol','La',2,ga));
+  var B=_sec('b-pink','B. Distancias desde La (menor natural)','Semitonos acumulados desde La.',
+    _nrow(1,pa,'La','Do',3,pa)+_nrow(2,pa,'La','Mi',7,pa)+_nrow(3,pa,'La','Sol',10,pa)+_nrow(4,pa,'La','La (8va)',12,pa));
+  var C=_sec('c-blue','C. Escala menor ARMÓNICA','La armónica sube el 7° grado (Sol → Sol#).',
+    _nrow(1,ba,'Sol','Sol#',1,ba)
+    +_row(2,ba,'Fa → Sol# en menor armónica = ? st',3,ba,'st')
+    +_row(3,ba,'Semitonos naturales en La menor armónica (Si→Do, Mi→Fa, Sol#→La)',3,ba,'st'));
+  var D=_sec('d-purple','D. La relativa mayor','La menor y Do Mayor comparten las mismas notas.',
+    _row(1,va,'La menor y Do Mayor comparten ? notas',7,va,'notas')
+    +_row(2,va,'La relativa menor empieza en el grado ? de la escala mayor',6,va,'')
+    +_nrow(3,va,'Do','La (relativa menor)',9,va));
+  return _sheet('Escala Menor Natural y Armónica: Semitonos e Intervalos',
+    A+B+C+D+_memo('<b>Recuerda:</b> La menor natural: Si→Do y Mi→Fa son los 2 semitonos naturales (igual que Do Mayor, mismas notas). La armónica sube el 7° grado (Sol→Sol#). La relativa menor siempre empieza en el <b>6° grado</b> de la escala mayor.'));
+}
+
+// l7-3: Síntesis Final
+function makeActivitySheetSintesis() {
+  var ga='#16a34a',pa='#e11d48',ba='#2563eb',va='#7c3aed',oa='#d97706';
+  var A=_sec('a-green','A. Intervalos fundamentales','Semitonos de los intervalos más importantes.',
+    _row(1,ga,'1 octava',12,ga,'st')+_row(2,ga,'1 tono completo',2,ga,'st')
+    +_row(3,ga,'3ª mayor',4,ga,'st')+_row(4,ga,'3ª menor',3,ga,'st')
+    +_row(5,ga,'5ª justa',7,ga,'st'));
+  var B=_sec('b-pink','B. Fórmulas de acordes','Acorde mayor vs acorde menor.',
+    _row(1,pa,'Acorde MAYOR: Raíz→3ª',4,pa,'st')+_row(2,pa,'Acorde MAYOR: 3ª→5ª',3,pa,'st')
+    +_row(3,pa,'Acorde MENOR: Raíz→3ª',3,pa,'st')+_row(4,pa,'Acorde MENOR: 3ª→5ª',4,pa,'st')
+    +_row(5,pa,'Raíz→5ª en AMBOS tipos de acorde',7,pa,'st'));
+  var C=_sec('c-blue','C. Escalas — datos clave','Resumen de cada escala.',
+    _row(1,ba,'Escala mayor: semitonos naturales (S en T-T-S-T-T-T-S)',2,ba,'S')
+    +_row(2,ba,'Pentatónica: semitonos naturales',0,ba,'S')
+    +_row(3,ba,'Sol Mayor: sostenidos',1,ba,'#')
+    +_row(4,ba,'Fa Mayor: bemoles',1,ba,'♭')
+    +_row(5,ba,'La relativa menor empieza en el grado ? de la escala mayor',6,ba,''));
+  var D=_sec('d-purple','D. Tempo y ritmo','Cálculos a distintos BPM.',
+    _row(1,va,'A 60 BPM: 1 negra = ? seg',1,va,'seg')
+    +_row(2,va,'A 60 BPM: 1 blanca = ? seg',2,va,'seg')
+    +_row(3,va,'A 60 BPM: 1 redonda = ? seg',4,va,'seg')
+    +_row(4,va,'A 120 BPM: 1 negra = ? seg',0.5,va,'seg'));
+  var E=_secE('E. Distancias desde Do — Repaso total','Semitonos desde Do hasta cada nota de la escala mayor.',
+    _eItemU('Mi','Do→Mi',4,oa,'st')+_eItemU('Fa','Do→Fa',5,oa,'st')+_eItemU('Sol','Do→Sol',7,oa,'st')
+    +_eItemU('La','Do→La',9,oa,'st')+_eItemU('Si','Do→Si',11,oa,'st')+_eItemU('8va','Do→Do',12,oa,'st'));
+  return _sheet('Síntesis del Curso: Repaso de Intervalos, Acordes y Escalas',
+    A+B+C+D+E+_memo('<b>Recuerda:</b> 3 intervalos clave: <b>3ª mayor=4st, 3ª menor=3st, 5ª justa=7st</b>. Mayor=4+3, Menor=3+4. Escala mayor tiene 2 semitonos; pentatónica tiene 0. 1 octava = siempre <b>12 semitonos</b>.'));
+}
+
 // ═══════════════════════════════════════════
 // LESSONS CONTENT
 // ═══════════════════════════════════════════
@@ -2272,20 +2640,30 @@ function renderExercisesBlock(lid) {
 
   var html = '';
 
-  // ── fill-in-blank activity sheets ──
-  if (lid === 'l2-2') {
+  // ── fill-in-blank activity sheets (all lessons from Module 2 onwards) ──
+  var _sheetFns = {
+    'l2-1': makeActivitySheetDoCentral,
+    'l2-2': makeActivitySheetEscala,
+    'l2-3': makeActivitySheetPentacordio,
+    'l3-1': makeActivitySheetClaveSol,
+    'l3-2': makeActivitySheetClaveFa,
+    'l3-3': makeActivitySheetRitmo,
+    'l4-1': makeActivitySheetOda,
+    'l4-2': makeActivitySheetManoIzq,
+    'l4-3': makeActivitySheetAmbasManos,
+    'l5-1': makeActivitySheetAcordes,
+    'l5-2': makeActivitySheetMenores,
+    'l5-3': makeActivitySheetProgresiones,
+    'l6-1': makeActivitySheetDinamica,
+    'l6-2': makeActivitySheetArticulacion,
+    'l6-3': makeActivitySheetAlteraciones,
+    'l7-1': makeActivitySheetPentatonica,
+    'l7-2': makeActivitySheetMenorEscala,
+    'l7-3': makeActivitySheetSintesis
+  };
+  if (_sheetFns[lid]) {
     html += '<div class="section-header" style="margin-top:40px"><h2>✦ Actividades</h2><div class="line"></div></div>';
-    html += makeActivitySheetEscala();
-    html += '<div class="section-header" style="margin-top:32px"><h2>Preguntas de comprensión</h2><div class="line"></div></div>';
-  }
-  if (lid === 'l3-3') {
-    html += '<div class="section-header" style="margin-top:40px"><h2>✦ Actividades</h2><div class="line"></div></div>';
-    html += makeActivitySheetRitmo();
-    html += '<div class="section-header" style="margin-top:32px"><h2>Preguntas de comprensión</h2><div class="line"></div></div>';
-  }
-  if (lid === 'l5-1') {
-    html += '<div class="section-header" style="margin-top:40px"><h2>✦ Actividades</h2><div class="line"></div></div>';
-    html += makeActivitySheetAcordes();
+    html += _sheetFns[lid]();
     html += '<div class="section-header" style="margin-top:32px"><h2>Preguntas de comprensión</h2><div class="line"></div></div>';
   }
 
