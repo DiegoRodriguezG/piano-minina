@@ -2097,25 +2097,73 @@ function updateExCounter(eid) {
 function renderExercisesBlock(lid) {
   var exs = EX[lid];
   if (!exs || !exs.length) return '';
-  var html = '<div class="section-header" style="margin-top:40px"><h2>✦ Actividades</h2><div class="line"></div></div>';
+
+  // Find lesson title for subtitle bar
+  var lessonTitle = '';
+  for (var k = 0; k < CURRICULUM.length; k++) { if (CURRICULUM[k].id === lid) { lessonTitle = CURRICULUM[k].title; break; } }
+
+  // Section color palette (cycles A→B→C→D→E→A...)
+  var SC = [
+    {nc:'#16a34a', bg:'rgba(22,163,74,.10)',  bc:'rgba(22,163,74,.55)'},
+    {nc:'#e11d48', bg:'rgba(225,29,72,.10)',  bc:'rgba(225,29,72,.55)'},
+    {nc:'#2563eb', bg:'rgba(37,99,235,.10)',  bc:'rgba(37,99,235,.55)'},
+    {nc:'#9333ea', bg:'rgba(147,51,234,.10)', bc:'rgba(147,51,234,.55)'},
+    {nc:'#d97706', bg:'rgba(217,119,6,.10)',  bc:'rgba(217,119,6,.55)'},
+  ];
+
+  var html = '';
+
+  // ── l3-3 gets the fill-in-blank sheet first ──
   if (lid === 'l3-3') {
+    html += '<div class="section-header" style="margin-top:40px"><h2>✦ Actividades</h2><div class="line"></div></div>';
     html += makeActivitySheetRitmo();
     html += '<div class="section-header" style="margin-top:32px"><h2>Preguntas de comprensión</h2><div class="line"></div></div>';
   }
-  html += '<div id="ex-wrap-' + lid + '" data-total="' + exs.length + '">';
-  html += '<div class="ex-counter-wrap"><span id="exc-' + lid + '" class="ex-counter">0 correctas · 0 de ' + exs.length + ' respondidas</span></div>';
+
+  // ── Worksheet container ──
+  html += '<div style="border-radius:20px;overflow:hidden;margin-top:' + (lid === 'l3-3' ? '0' : '40px') + ';margin-bottom:28px;box-shadow:0 8px 48px rgba(0,0,0,.45),0 0 0 1px rgba(168,85,247,.12)">';
+
+  // Header
+  html += '<div style="background:linear-gradient(135deg,#1e1b4b,#0e0030);padding:18px 28px;text-align:center">';
+  html += '<div style="font-size:1.5rem;font-weight:900;color:#fff;letter-spacing:3px;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:12px">';
+  html += '<span style="font-size:1rem;opacity:.7">✦</span> Actividades <span style="font-size:1rem;opacity:.7">✦</span></div>';
+  html += '</div>';
+
+  // Subtitle bar (magenta/purple matching the app accent)
+  html += '<div style="background:#7c3aed;padding:8px 28px;text-align:center;font-size:.8rem;font-weight:800;color:#f3e8ff;letter-spacing:1.3px;text-transform:uppercase">' + lessonTitle + '</div>';
+
+  // Score counter
+  html += '<div style="background:var(--bg2);padding:10px 18px 0;text-align:right">';
+  html += '<span id="exc-' + lid + '" class="ex-counter" style="font-size:.82rem;color:var(--muted2)">0 correctas · 0 de ' + exs.length + ' respondidas</span>';
+  html += '</div>';
+
+  // Questions body
+  html += '<div id="ex-wrap-' + lid + '" data-total="' + exs.length + '" style="background:var(--bg2);padding:14px 18px 18px;display:flex;flex-direction:column;gap:12px">';
+
   exs.forEach(function(ex, i) {
-    var eid  = lid + '-x' + i;
-    var isTF = ex[1] === 'TF';
+    var eid   = lid + '-x' + i;
+    var isTF  = ex[1] === 'TF';
     var hasPlay = Array.isArray(ex[4]) && ex[4].length;
-    var exp  = (ex[3] || '').replace(/'/g, '&#39;');
-    html += '<div class="ex-box">';
-    html += '<div class="ex-num">Actividad ' + (i + 1) + ' de ' + exs.length + '</div>';
-    html += '<div class="ex-question">' + ex[0] + '</div>';
+    var exp   = (ex[3] || '').replace(/'/g, '&#39;');
+    var sc    = SC[i % SC.length];
+    var letter = String.fromCharCode(65 + i); // A, B, C...
+
+    // Section box (colored border + tinted background)
+    html += '<div style="border-radius:14px;padding:16px 18px;border:2px solid ' + sc.bc + ';background:' + sc.bg + '">';
+
+    // Section label
+    html += '<div style="font-size:.82rem;font-weight:900;text-transform:uppercase;letter-spacing:.8px;color:' + sc.nc + ';margin-bottom:10px">';
+    html += letter + '. &nbsp;<span style="opacity:.75;font-weight:600">Pregunta ' + (i + 1) + ' de ' + exs.length + '</span></div>';
+
+    // Question
+    html += '<div class="ex-question" style="margin-bottom:14px">' + ex[0] + '</div>';
+
+    // Optional audio button
     if (hasPlay) {
-      var bpm = ex[5] || 80;
-      html += '<button class="btn-play" style="margin-bottom:14px" onclick="playSeq([' + ex[4].join(',') + '],' + bpm + ')">▶ Escuchar primero</button>';
+      html += '<button class="btn-play" style="margin-bottom:14px" onclick="playSeq([' + ex[4].join(',') + '],' + (ex[5] || 80) + ')">▶ Escuchar primero</button>';
     }
+
+    // Answer options
     html += '<div class="ex-options">';
     if (isTF) {
       var a = ex[2] ? 0 : 1;
@@ -2129,9 +2177,18 @@ function renderExercisesBlock(lid) {
     html += '</div>';
     html += '<div class="ex-feedback" id="ex-fb-' + eid + '"></div>';
     html += '<div class="ex-explain" id="ex-exp-' + eid + '" style="display:none"></div>';
-    html += '</div>';
+    html += '</div>'; // section box
   });
+
+  html += '</div>'; // questions body
+
+  // Recuerda footer
+  html += '<div style="background:var(--bg3);padding:12px 20px;display:flex;align-items:flex-start;gap:10px;border-top:1px solid rgba(168,85,247,.2)">';
+  html += '<span style="font-size:1.2rem;flex-shrink:0">⭐</span>';
+  html += '<span style="font-size:.83rem;color:var(--muted2);line-height:1.6"><b style="color:var(--accent)">Recuerda:</b> elige la respuesta que creas correcta. Verás la explicación después de responder. ¡Sin presión, cada error enseña!</span>';
   html += '</div>';
+
+  html += '</div>'; // worksheet container
   return html;
 }
 
