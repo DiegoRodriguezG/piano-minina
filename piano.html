@@ -1666,6 +1666,28 @@ LESSONS['l2-1'] = function() {
   '</div>' +
   insight('🎵', '<b>Ejercicio de escucha:</b> Toca el Do Central y déjalo sonar. Mientras suena, toca el Do de la octava siguiente (8 teclas blancas mas a la derecha). Escucha como suenan "iguales pero diferentes": mas brillante, mas agudo. Esa relacion de octava es el intervalo mas consonante de toda la musica.') +
   callout('<b>El nombre "Central" es relativo:</b> En un piano de 88 teclas, el Do Central no esta exactamente en el centro fisico (que seria entre Fa3 y Fa#3). Esta en la cuarta octava del instrumento. Se llama "central" porque es el punto de referencia para toda la lectura musical y para la posicion de las manos.') +
+  sectionHeader('¿Que es un semitono?') +
+  theory('<p>El <b>semitono</b> es el paso mas pequeno que existe en la musica. En el piano se ve claramente: la distancia entre dos teclas <em>adyacentes</em> (que se tocan sin ninguna tecla de por medio) es siempre un semitono. No importa si son blancas, negras o una de cada una — si no hay ninguna tecla entre ellas, hay un semitono.</p><p>Ejemplos directos en el teclado: entre <b>Do y Do#</b> hay 1 semitono (la tecla negra es la siguiente). Entre <b>Mi y Fa</b> hay 1 semitono (no hay tecla negra entre ellas, son adyacentes). Pero entre <b>Do y Re</b> hay <b>2 semitonos</b>, porque entre ellas existe la tecla negra Do# — hay que pasar por ella para llegar de Do a Re.</p><p>A 2 semitonos juntos los llamamos <b>tono</b>. La formula que usaras toda tu vida: <em>T = tono = 2 semitonos · S = semitono = 1 semitono</em>. Con esto mediras la distancia entre cualquier par de notas del piano.</p><p>Desde el <b>Do Central</b> puedes contar: Do4→Re4 = <b>2 st</b>, Do4→Mi4 = <b>4 st</b>, Do4→Fa4 = <b>5 st</b>, Do4→Sol4 = <b>7 st</b>, Do4→La4 = <b>9 st</b>, Do4→Si4 = <b>11 st</b>, Do4→Do5 = <b>12 st</b>. Ese ultimo dato es clave: una <b>octava siempre mide 12 semitonos</b>, en cualquier instrumento, en cualquier tonalidad, en cualquier musica del mundo.</p>') +
+  pianoHtml({startMidi:60, endMidi:72, WKW:32, height:110, label:'Cada paso adyacente = 1 semitono. De Do4 a Do5 = 12 semitonos = 1 octava', highlight:[
+    {midi:60, color:'#f0abfc', label:'Do4·0st'},
+    {midi:61, color:'#fde68a', label:'1st'},
+    {midi:62, color:'#a78bfa', label:'Re·2st'},
+    {midi:63, color:'#fde68a', label:'3st'},
+    {midi:64, color:'#a78bfa', label:'Mi·4st'},
+    {midi:65, color:'#86efac', label:'Fa·5st'},
+    {midi:66, color:'#fde68a', label:'6st'},
+    {midi:67, color:'#a78bfa', label:'Sol·7st'},
+    {midi:68, color:'#fde68a', label:'8st'},
+    {midi:69, color:'#a78bfa', label:'La·9st'},
+    {midi:70, color:'#fde68a', label:'10st'},
+    {midi:71, color:'#a78bfa', label:'Si·11st'},
+    {midi:72, color:'#f0abfc', label:'Do5·12st'},
+  ]}) +
+  '<div class="btns-row">' +
+  btnPlay('▶ Escuchar 12 semitonos subiendo', 'playSeq([60,61,62,63,64,65,66,67,68,69,70,71,72],100,0.35)') +
+  btnPlay('▶ Escuchar Do4→Sol4 (7 st)', 'playSeq([60,67],80,1.2)') +
+  '</div>' +
+  insight('📏', '<b>Regla universal:</b> 1 octava = siempre 12 semitonos. Do4→Do5 = 12 st. La4→La5 = 12 st. En cualquier nota, siempre 12. Esto nunca cambia. Con esa regla y el Do Central como punto de partida, puedes calcular la distancia a cualquier nota del piano.') +
   magicBox('Meditacion sonora', 'Toca el Do Central con el dedo 3 (medio) de la mano derecha. Mira el dedo mientras lo tocas. Ahora cierra los ojos y vuelve a tocarlo, guiandote solo por la memoria de donde estaba. Cuando lo encuentres sin mirar, celebralo: tu cuerpo ya esta aprendiendo el piano.') +
   makeExercise('ex2-1', '¿Por que el Do Central es el punto de encuentro de las dos manos?', ['Porque es la nota mas aguda del piano', 'Porque es la ultima nota del registro grave que lee la mano derecha y la primera del registro agudo que lee la mano izquierda', 'Porque es la nota mas facil de tocar', 'Porque esta en el centro geometrico del teclado'], 1) +
   completeBtn();
