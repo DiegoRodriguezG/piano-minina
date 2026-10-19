@@ -328,6 +328,56 @@ body::before{
   background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.25);
 }
 
+/* ── LESSON FADE TRANSITION ── */
+#lesson-container{transition:opacity .38s ease;}
+#lesson-container.lc-fade{opacity:0 !important;}
+
+/* ── CELEBRATION OVERLAY ── */
+#lesson-celebrate{
+  position:fixed;inset:0;z-index:9998;
+  background:transparent;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;transition:background .4s ease;
+}
+#lesson-celebrate.cel-active{
+  background:rgba(2,0,22,.72);pointer-events:all;
+}
+.cel-card{
+  text-align:center;
+  transform:scale(.5) translateY(30px);opacity:0;
+  transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .38s ease;
+}
+#lesson-celebrate.cel-active .cel-card{transform:scale(1) translateY(0);opacity:1;}
+.cel-icon{
+  font-size:5.5rem;line-height:1;display:block;
+  filter:drop-shadow(0 0 36px rgba(52,211,153,.95));
+  animation:celIconPop .55s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+.cel-title{
+  font-size:2.1rem;font-weight:900;color:#6ee7b7;
+  margin:18px 0 8px;letter-spacing:.3px;
+  text-shadow:0 0 28px rgba(52,211,153,.65);
+}
+.cel-sub{font-size:1rem;color:rgba(255,255,255,.65);margin-bottom:4px;}
+.cel-next{font-size:.9rem;color:rgba(52,211,153,.6);margin-top:10px;letter-spacing:.5px;}
+@keyframes celIconPop{
+  0%{transform:scale(0) rotate(-20deg)}
+  60%{transform:scale(1.18) rotate(6deg)}
+  100%{transform:scale(1) rotate(0deg)}
+}
+
+/* confetti particles */
+.cel-confetti{
+  position:fixed;pointer-events:none;z-index:9999;
+  font-size:1.4rem;line-height:1;
+  animation:celConfetti var(--d,1.8s) var(--dl,0s) ease-out forwards;
+}
+@keyframes celConfetti{
+  0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}
+  80%{opacity:.8}
+  100%{transform:translateY(-320px) rotate(var(--rot,200deg)) scale(.6);opacity:0}
+}
+
 /* ── SECTION HEADER ── */
 .section-header{display:flex;align-items:center;gap:14px;margin-bottom:18px;margin-top:30px}
 .section-header h2{font-size:1.28rem;color:var(--accent2);font-weight:700;white-space:nowrap;text-shadow:0 0 16px rgba(244,114,182,.4)}
@@ -515,6 +565,16 @@ body::before{
 </style>
 </head>
 <body>
+
+<!-- CELEBRATION OVERLAY -->
+<div id="lesson-celebrate">
+  <div class="cel-card">
+    <span class="cel-icon">✅</span>
+    <div class="cel-title">¡Lección completada!</div>
+    <div class="cel-sub">Sigue avanzando, vas increíble 🌟</div>
+    <div class="cel-next" id="cel-next-label"></div>
+  </div>
+</div>
 
 <!-- AURORA BACKGROUND BLOBS -->
 <div class="aurora"></div>
@@ -809,8 +869,61 @@ function markComplete(id) {
   progress[id] = true;
   localStorage.setItem(PROG_KEY, JSON.stringify(progress));
   updateSidebar();
+}
+
+function celebrateAndAdvance(id) {
+  markComplete(id);
   var btn = document.getElementById('btn-complete');
-  if (btn) { btn.classList.add('done'); btn.textContent = '✓ Leccion completada'; }
+  if (btn) { btn.classList.add('done'); btn.innerHTML = '&#x2713; Leccion completada ✨'; }
+
+  // Find next lesson
+  var idx = CURRICULUM.findIndex(function(l) { return l.id === id; });
+  var next = CURRICULUM[idx + 1] || null;
+
+  // Label
+  var nextLabel = document.getElementById('cel-next-label');
+  if (nextLabel) nextLabel.textContent = next ? 'Siguiente: ' + next.title + ' →' : '';
+
+  // Show overlay
+  var overlay = document.getElementById('lesson-celebrate');
+  overlay.classList.add('cel-active');
+
+  // Confetti burst
+  var emojis = ['🌟','✨','🎉','🎊','💫','⭐','🌸','🦋','🎵','🎶'];
+  for (var i = 0; i < 24; i++) {
+    (function() {
+      var p = document.createElement('span');
+      p.className = 'cel-confetti';
+      p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      p.style.left = (5 + Math.random() * 90) + '%';
+      p.style.top = (30 + Math.random() * 50) + '%';
+      p.style.setProperty('--d', (1.2 + Math.random() * 1.4) + 's');
+      p.style.setProperty('--dl', (Math.random() * .7) + 's');
+      p.style.setProperty('--rot', (Math.random() > .5 ? '' : '-') + (100 + Math.random() * 260) + 'deg');
+      document.body.appendChild(p);
+      setTimeout(function() { p.remove(); }, 3500);
+    })();
+  }
+
+  // After 2.3s: hide overlay + fade lesson out + load next
+  setTimeout(function() {
+    overlay.classList.remove('cel-active');
+    if (!next) return;
+    var container = document.getElementById('lesson-container');
+    container.classList.add('lc-fade');
+    setTimeout(function() {
+      currentLesson = next.id;
+      renderLesson(next.id);
+      // renderLesson replaces innerHTML; container still has lc-fade
+      var c2 = document.getElementById('lesson-container');
+      // tiny delay so the new content is painted before we remove fade
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          c2.classList.remove('lc-fade');
+        });
+      });
+    }, 420);
+  }, 2400);
 }
 function isDone(id) { return !!progress[id]; }
 function isUnlocked(id) {
@@ -2847,9 +2960,7 @@ function renderLesson(id) {
   if (btn) {
     btn.addEventListener('click', function() {
       if (isDone(id)) return;
-      markComplete(id);
-      btn.classList.add('done');
-      btn.innerHTML = '&#x2713; Leccion completada ✨';
+      celebrateAndAdvance(id);
     });
   }
 }
