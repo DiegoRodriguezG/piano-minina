@@ -291,24 +291,42 @@ body::before{
   box-shadow:0 0 14px rgba(209,138,245,.12);
 }
 .btn-play:hover{background:rgba(209,138,245,.22);box-shadow:0 0 26px rgba(209,138,245,.32);transform:translateY(-1px)}
+.btn-complete-wrap{
+  display:flex;justify-content:center;margin:48px 0 20px;
+}
 .btn-complete{
-  display:flex;align-items:center;gap:8px;margin-top:30px;
-  padding:15px 36px;
-  background:rgba(167,243,208,.1);border:1px solid rgba(167,243,208,.4);
-  color:var(--success);border-radius:30px;
-  font-size:1.02rem;cursor:pointer;transition:all .22s;
-  position:relative;overflow:hidden;
-  box-shadow:0 0 18px rgba(167,243,208,.12);
+  display:inline-flex;align-items:center;gap:12px;
+  padding:20px 52px;
+  background:linear-gradient(135deg,rgba(16,185,129,.22),rgba(5,150,105,.14));
+  border:2px solid rgba(52,211,153,.55);
+  color:#6ee7b7;border-radius:50px;
+  font-size:1.18rem;font-weight:800;letter-spacing:.5px;
+  cursor:pointer;position:relative;overflow:hidden;
+  box-shadow:0 0 28px rgba(52,211,153,.22),0 4px 24px rgba(0,0,0,.35);
+  animation:completePulse 2.8s ease-in-out infinite;
+  transition:all .25s;
 }
-.btn-complete::after{
-  content:'';position:absolute;top:-50%;left:-65%;width:55%;height:200%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);
-  transform:skewX(-18deg);
-  animation:btnShimmer 4.5s ease-in-out infinite;
+@keyframes completePulse{
+  0%,100%{box-shadow:0 0 28px rgba(52,211,153,.22),0 4px 24px rgba(0,0,0,.35)}
+  50%{box-shadow:0 0 52px rgba(52,211,153,.55),0 4px 32px rgba(0,0,0,.4),0 0 0 6px rgba(52,211,153,.08)}
 }
-@keyframes btnShimmer{0%{left:-65%}55%,100%{left:135%}}
-.btn-complete:hover{background:rgba(167,243,208,.18);box-shadow:0 0 32px rgba(167,243,208,.25);transform:translateY(-1px)}
-.btn-complete.done{opacity:.3;cursor:default;pointer-events:none}
+.btn-complete::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.12) 50%,transparent 100%);
+  transform:translateX(-100%);
+  animation:btnShimmer 2.4s ease-in-out infinite;
+}
+@keyframes btnShimmer{0%{transform:translateX(-100%)}60%,100%{transform:translateX(200%)}}
+.btn-complete:hover{
+  background:linear-gradient(135deg,rgba(16,185,129,.38),rgba(5,150,105,.28));
+  box-shadow:0 0 64px rgba(52,211,153,.6),0 4px 32px rgba(0,0,0,.4);
+  transform:translateY(-3px) scale(1.03);
+  color:#a7f3d0;
+}
+.btn-complete.done{
+  animation:none;opacity:.45;cursor:default;pointer-events:none;
+  background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.25);
+}
 
 /* ── SECTION HEADER ── */
 .section-header{display:flex;align-items:center;gap:14px;margin-bottom:18px;margin-top:30px}
@@ -713,7 +731,8 @@ function buildPiano(opts) {
     if (clickable) svg += ' onclick="onKeyClick(' + k.midi + ')" onmouseenter="onKeyHover(' + k.midi + ')"';
     svg += '/>';
     if (hl && hl.label) {
-      svg += '<text x="' + (k.x + WKW/2) + '" y="' + (WKH - 7) + '" text-anchor="middle" font-size="' + Math.max(8, WKW-6) + '" fill="' + (hl.color ? '#0c001e' : '#2a0e5a') + '" font-weight="bold" font-family="sans-serif" pointer-events="none">' + hl.label + '</text>';
+      var wFs = opts.labelFontSize || Math.max(8, WKW-6);
+      svg += '<text x="' + (k.x + WKW/2) + '" y="' + (WKH - 7) + '" text-anchor="middle" font-size="' + wFs + '" fill="' + (hl.color ? '#0c001e' : '#2a0e5a') + '" font-weight="bold" font-family="sans-serif" pointer-events="none">' + hl.label + '</text>';
     }
   });
   for (var m2 = startMidi; m2 <= endMidi; m2++) {
@@ -728,7 +747,8 @@ function buildPiano(opts) {
       if (clickable) svg += ' onclick="onKeyClick(' + m2 + ')" onmouseenter="onKeyHover(' + m2 + ')"';
       svg += '/>';
       if (hl2 && hl2.label) {
-        svg += '<text x="' + (bx + BKW/2) + '" y="' + (BKH - 5) + '" text-anchor="middle" font-size="' + Math.max(7, BKW-4) + '" fill="#ede9fe" font-weight="bold" font-family="sans-serif" pointer-events="none">' + hl2.label + '</text>';
+        var bFs = opts.labelFontSize ? Math.max(7, opts.labelFontSize-1) : Math.max(7, BKW-4);
+        svg += '<text x="' + (bx + BKW/2) + '" y="' + (BKH - 5) + '" text-anchor="middle" font-size="' + bFs + '" fill="#ede9fe" font-weight="bold" font-family="sans-serif" pointer-events="none">' + hl2.label + '</text>';
       }
     }
   }
@@ -859,8 +879,12 @@ function sectionHeader(title) {
 function btnPlay(label, jsCall) {
   return '<button class="btn-play" onclick="' + jsCall + '">' + label + '</button>';
 }
-function completeBtn() {
-  return '<button class="btn-complete' + (isDone(currentLesson) ? ' done' : '') + '" id="btn-complete" onclick="markComplete(\'' + currentLesson + '\')">' + (isDone(currentLesson) ? '&#x2713; Leccion completada' : '&#9672; Marcar como completada') + '</button>';
+function completeBtn() { return ''; } // legacy — button now appended by renderLesson
+function completeBtnHtml(id) {
+  var done = isDone(id);
+  return '<div class="btn-complete-wrap"><button class="btn-complete' + (done ? ' done' : '') + '" id="btn-complete">' +
+    (done ? '&#x2713; Leccion completada ✨' : '&#10022; Marcar como completada') +
+    '</button></div>';
 }
 function makeExercise(id, question, options, correct) {
   var opts = options.map(function(o, i) {
@@ -1668,20 +1692,20 @@ LESSONS['l2-1'] = function() {
   callout('<b>El nombre "Central" es relativo:</b> En un piano de 88 teclas, el Do Central no esta exactamente en el centro fisico (que seria entre Fa3 y Fa#3). Esta en la cuarta octava del instrumento. Se llama "central" porque es el punto de referencia para toda la lectura musical y para la posicion de las manos.') +
   sectionHeader('¿Que es un semitono?') +
   theory('<p>El <b>semitono</b> es el paso mas pequeno que existe en la musica. En el piano se ve claramente: la distancia entre dos teclas <em>adyacentes</em> (que se tocan sin ninguna tecla de por medio) es siempre un semitono. No importa si son blancas, negras o una de cada una — si no hay ninguna tecla entre ellas, hay un semitono.</p><p>Ejemplos directos en el teclado: entre <b>Do y Do#</b> hay 1 semitono (la tecla negra es la siguiente). Entre <b>Mi y Fa</b> hay 1 semitono (no hay tecla negra entre ellas, son adyacentes). Pero entre <b>Do y Re</b> hay <b>2 semitonos</b>, porque entre ellas existe la tecla negra Do# — hay que pasar por ella para llegar de Do a Re.</p><p>A 2 semitonos juntos los llamamos <b>tono</b>. La formula que usaras toda tu vida: <em>T = tono = 2 semitonos · S = semitono = 1 semitono</em>. Con esto mediras la distancia entre cualquier par de notas del piano.</p><p>Desde el <b>Do Central</b> puedes contar: Do4→Re4 = <b>2 st</b>, Do4→Mi4 = <b>4 st</b>, Do4→Fa4 = <b>5 st</b>, Do4→Sol4 = <b>7 st</b>, Do4→La4 = <b>9 st</b>, Do4→Si4 = <b>11 st</b>, Do4→Do5 = <b>12 st</b>. Ese ultimo dato es clave: una <b>octava siempre mide 12 semitonos</b>, en cualquier instrumento, en cualquier tonalidad, en cualquier musica del mundo.</p>') +
-  pianoHtml({startMidi:60, endMidi:72, WKW:32, height:110, label:'Cada paso adyacente = 1 semitono. De Do4 a Do5 = 12 semitonos = 1 octava', highlight:[
-    {midi:60, color:'#f0abfc', label:'Do4·0st'},
-    {midi:61, color:'#fde68a', label:'1st'},
-    {midi:62, color:'#a78bfa', label:'Re·2st'},
-    {midi:63, color:'#fde68a', label:'3st'},
-    {midi:64, color:'#a78bfa', label:'Mi·4st'},
-    {midi:65, color:'#86efac', label:'Fa·5st'},
-    {midi:66, color:'#fde68a', label:'6st'},
-    {midi:67, color:'#a78bfa', label:'Sol·7st'},
-    {midi:68, color:'#fde68a', label:'8st'},
-    {midi:69, color:'#a78bfa', label:'La·9st'},
-    {midi:70, color:'#fde68a', label:'10st'},
-    {midi:71, color:'#a78bfa', label:'Si·11st'},
-    {midi:72, color:'#f0abfc', label:'Do5·12st'},
+  pianoHtml({startMidi:60, endMidi:72, WKW:50, height:155, labelFontSize:11, label:'Cada tecla adyacente = 1 semitono · Do4 → Do5 = 12 semitonos = 1 octava', highlight:[
+    {midi:60, color:'#f0abfc', label:'Do  0st'},
+    {midi:61, color:'#fbbf24', label:'1st'},
+    {midi:62, color:'#a78bfa', label:'Re  2st'},
+    {midi:63, color:'#fbbf24', label:'3st'},
+    {midi:64, color:'#818cf8', label:'Mi  4st'},
+    {midi:65, color:'#6ee7b7', label:'Fa  5st'},
+    {midi:66, color:'#fbbf24', label:'6st'},
+    {midi:67, color:'#a78bfa', label:'Sol 7st'},
+    {midi:68, color:'#fbbf24', label:'8st'},
+    {midi:69, color:'#818cf8', label:'La  9st'},
+    {midi:70, color:'#fbbf24', label:'10st'},
+    {midi:71, color:'#a78bfa', label:'Si 11st'},
+    {midi:72, color:'#f0abfc', label:'Do 12st'},
   ]}) +
   '<div class="btns-row">' +
   btnPlay('▶ Escuchar 12 semitonos subiendo', 'playSeq([60,61,62,63,64,65,66,67,68,69,70,71,72],100,0.35)') +
@@ -2814,19 +2838,18 @@ function renderExercisesBlock(lid) {
 function renderLesson(id) {
   var fn = LESSONS[id];
   if (!fn) return;
-  var html = fn() + pedagogyBlock(id) + renderExercisesBlock(id);
+  var html = fn() + pedagogyBlock(id) + renderExercisesBlock(id) + completeBtnHtml(id);
   document.getElementById('lesson-container').innerHTML = html;
   window.scrollTo(0, 0);
   updateSidebar();
   if (_mia.open) { _mia.idx = 0; _mia.planOpen = false; miaRender(); }
   var btn = document.getElementById('btn-complete');
   if (btn) {
-    if (isDone(id)) { btn.classList.add('done'); btn.innerHTML = '✓ Completada ✨'; }
     btn.addEventListener('click', function() {
       if (isDone(id)) return;
       markComplete(id);
       btn.classList.add('done');
-      btn.innerHTML = '✓ Completada ✨';
+      btn.innerHTML = '&#x2713; Leccion completada ✨';
     });
   }
 }
